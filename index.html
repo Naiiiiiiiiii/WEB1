@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giày Nam Cao Cấp - ShoeStore</title>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -100,222 +100,35 @@
             <!-- Filter -->
             <div class="filter-bar">
                 <div class="filter-group">
-                    <button class="filter-btn active">Tất cả</button>
-                    <button class="filter-btn">Thể thao</button>
-                    <button class="filter-btn">Công sở</button>
-                    <button class="filter-btn">Casual</button>
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="thethao">Thể thao</button>
+                    <button class="filter-btn" data-filter="congso">Công sở</button>
+                    <button class="filter-btn" data-filter="casual">Casual</button>
                 </div>
                 <div class="sort-group">
                     <select class="sort-select">
-                        <option>Sắp xếp theo</option>
-                        <option>Giá tăng dần</option>
-                        <option>Giá giảm dần</option>
-                        <option>Mới nhất</option>
-                        <option>Bán chạy</option>
+                        <option value="">Sắp xếp theo</option>
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                        <option value="newest">Mới nhất</option>
+                        <option value="best-seller">Bán chạy</option>
                     </select>
                 </div>
             </div>
 
-            <div class="product-grid">
-                <!-- Modal Xem nhanh -->
-<div id="quick-view-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <img id="modal-img" src="" alt="Ảnh sản phẩm">
-    <h3 id="modal-name"></h3>
-    <div id="modal-rating"></div>
-    <div id="modal-price"></div>
-    <button class="add-to-cart">Thêm vào giỏ</button>
-  </div>
-</div>
-                <!-- Product 1 -->
-            <div class="product-card">
-                <div class="product-badge hot">Hot</div>
+            <!-- Product grid (will be rendered by renderProducts.js) -->
+            <div class="product-grid"></div>
 
-<div class="product-image">
-<img src="./img/NAME.avif" alt="Nike Air Max Excee" class="product-img">
-<div class="product-overlay">
-    <button class="quick-view">Xem nhanh</button>
-</div>
-</div>
-
-                <div class="product-info">
-                    <h3 class="product-name">Giày thể thao Nike Air Max Excee</h3>
-                    <div class="product-rating">
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="rating-text">(128)</span>
-                    </div>
-                    <div class="product-price">
-                        <span class="current-price">2.890.000₫</span>
-                        <span class="old-price">3.200.000₫</span>
-                    </div>
-                    <button class="add-to-cart">
-                        <i class="fas fa-cart-plus"></i>
-                        Thêm vào giỏ
-                    </button>
-                </div>
-            </div>
-
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <div class="product-badge sale">-20%</div>
-                    <div class="product-image">
-                        <i class="fas fa-shoe-prints"></i>
-                        <div class="product-overlay">
-                            <button class="quick-view">Xem nhanh</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Giày da công sở Oxford</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="rating-text">(95)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">1.990.000₫</span>
-                            <span class="old-price">2.490.000₫</span>
-                        </div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <div class="product-badge new">Mới</div>
-                    <div class="product-image">
-                        <i class="fas fa-shoe-prints"></i>
-                        <div class="product-overlay">
-                            <button class="quick-view">Xem nhanh</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Sneaker Casual Adidas</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="rating-text">(203)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">2.290.000₫</span>
-                        </div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-shoe-prints"></i>
-                        <div class="product-overlay">
-                            <button class="quick-view">Xem nhanh</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Boots da cao cổ</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="rating-text">(76)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">3.490.000₫</span>
-                        </div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 5 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-shoe-prints"></i>
-                        <div class="product-overlay">
-                            <button class="quick-view">Xem nhanh</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Giày Converse Classic</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="rating-text">(156)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">1.590.000₫</span>
-                        </div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product 6 -->
-                <div class="product-card">
-                    <div class="product-badge sale">-15%</div>
-                    <div class="product-image">
-                        <i class="fas fa-shoe-prints"></i>
-                        <div class="product-overlay">
-                            <button class="quick-view">Xem nhanh</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Giày Puma Runner</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="rating-text">(89)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">2.190.000₫</span>
-                            <span class="old-price">2.590.000₫</span>
-                        </div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
+            <!-- Modal Xem nhanh (để ngoài grid) -->
+            <div id="quick-view-modal" class="modal">
+              <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <img id="modal-img" src="" alt="Ảnh sản phẩm">
+                <h3 id="modal-name"></h3>
+                <div id="modal-rating"></div>
+                <div id="modal-price"></div>
+                <button class="add-to-cart" id="modal-add-to-cart">Thêm vào giỏ</button>
+              </div>
             </div>
 
             <div class="load-more">
@@ -407,7 +220,8 @@
         </div>
     </footer>
     
+    <script src="./js/products.js"></script>
+    <script src="./js/renderProducts.js"></script>
     <script src="./js/main.js"></script>
-    <script src="js/quickview.js" defer></script>
 </body>
 </html>

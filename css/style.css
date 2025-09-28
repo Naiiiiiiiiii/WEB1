@@ -204,7 +204,15 @@ body {
     outline: none;
 }
 
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+/* Grid: ensure items stretch to same height */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    align-items: stretch; /* <-- important: make grid items stretch to same height */
+}
+
+/* Make card a vertical flex container so we can push button to bottom */
 .product-card {
     background: white;
     border-radius: 20px;
@@ -212,6 +220,10 @@ body {
     overflow: hidden;
     transition: all 0.3s;
     position: relative;
+
+    display: flex;             /* <-- added */
+    flex-direction: column;    /* <-- added */
+    height: 100%;              /* <-- ensure it fills grid cell */
 }
 .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
 
@@ -229,6 +241,7 @@ body {
 .product-badge.sale { background: #2ed573; color: white; }
 .product-badge.new { background: #3742fa; color: white; }
 
+/* Image area: fixed height and not growing */
 .product-image {
     width: 100%;
     height: 250px;
@@ -240,6 +253,8 @@ body {
     color: #666;
     position: relative;
     overflow: hidden;
+
+    flex: 0 0 250px;  /* <-- important: prevent image area from stretching */
 }
 .product-img {
   width: 100%;
@@ -273,7 +288,14 @@ body {
 }
 .quick-view:hover { background: #ff6b35; color: white; }
 
-.product-info { padding: 1.5rem; }
+/* Product info: make it a column flex that can grow */
+.product-info {
+    padding: 1.5rem;
+    display: flex;             /* <-- added */
+    flex-direction: column;    /* <-- added */
+    gap: 8px;
+    flex: 1 1 auto;            /* <-- take remaining height */
+}
 .product-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem; color: #333; }
 
 .product-rating { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
@@ -284,6 +306,7 @@ body {
 .current-price { font-size: 1.4rem; color: #ff6b35; font-weight: bold; }
 .old-price { color: #999; text-decoration: line-through; margin-left: 10px; }
 
+/* Ensure button always at bottom of .product-info */
 .add-to-cart {
     width: 100%;
     background: linear-gradient(45deg, #ff6b35, #f7931e);
@@ -298,6 +321,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    margin-top: auto; /* <-- pushes button to bottom */
+    align-self: stretch;
 }
 .add-to-cart:hover { background: linear-gradient(45deg, #e55a2b, #e0831a); transform: translateY(-2px); }
 
@@ -359,7 +385,7 @@ body {
 }
 .newsletter-form button:hover { background: linear-gradient(45deg, #e55a2b, #e0831a); }
 
-/* Footer */
+ /* Footer */
 .footer { background: #1a1a1a; color: white; padding: 60px 0 20px; }
 .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 2rem; }
 .footer-section h3 { margin-bottom: 1.5rem; font-size: 1.3rem; color: #ff6b35; }

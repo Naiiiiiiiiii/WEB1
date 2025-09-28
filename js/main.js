@@ -80,14 +80,14 @@ function khoiTaoSuKienGioHang() {
                 return;
             }
             
-            // Thêm hiệu ứng và cập nhật số lượng
-            this.style.background = '#28a745';
-            this.innerHTML = '<i class="fas fa-check"></i> Đã thêm';
+            // // Thêm hiệu ứng và cập nhật số lượng
+            // this.style.background = '#28a745';
+            // this.innerHTML = '<i class="fas fa-check"></i> Đã thêm';
             
-            setTimeout(() => {
-                this.style.background = '';
-                this.innerHTML = '<i class="fas fa-cart-plus"></i> Thêm vào giỏ';
-            }, 1500);
+            // setTimeout(() => {
+            //     this.style.background = '';
+            //     this.innerHTML = '<i class="fas fa-cart-plus"></i> Thêm vào giỏ';
+            // }, 1500);
             
             // Cập nhật số lượng giỏ hàng
             let soLuongHienTai = parseInt(soLuongGioHang.textContent) || 0;
