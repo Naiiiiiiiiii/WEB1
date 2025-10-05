@@ -64,6 +64,7 @@ const products = [
     rating: 4,
     ratingCount: 89,
     badge: "sale"
+<<<<<<< HEAD
   },
   {
     id: 7,
@@ -75,5 +76,7 @@ const products = [
     rating: 5,
     ratingCount: 128,
     badge: "hot"
+=======
+>>>>>>> 3f9c09077d84470ffb32cc3d92cb7b61faf482eb
   }
 ];
