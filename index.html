@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giày Nam Cao Cấp - ShoeStore</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <script src="./js/products.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/quickview.js"></script>
+    <script src="./js/main.js"></script>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shoe-prints"></i>
+                ShoeStore
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home">Trang chủ</a></li>
+                    <li><a href="#products">Sản phẩm</a></li>
+                    <li><a href="#brands">Thương hiệu</a></li>
+                    <li><a href="#about">Giới thiệu</a></li>
+                    <li><a href="#contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-icons">
+                <a href="./search.html"><i class="fas fa-search"></i></a>
+                <a href="#wishlist"><i class="fas fa-heart"></i></a>
+                <a href="#cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="./dangnhap.html"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </header>
+
+ <!--Main cua trang index-->
+ <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div>
+                <h1>Giày Nam Cao Cấp</h1>
+                <p>Khám phá bộ sưu tập giày nam chính hãng với thiết kế hiện đại và chất lượng vượt trội</p>
+                <a href="#products" class="cta-button">Mua sắm ngay</a>
+            </div>
+            <div class="hero-image">
+                <div class="floating-shoe">
+                    <i class="fas fa-shoe-prints"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Danh mục nổi bật</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>Giày thể thao</h3>
+                    <p>Năng động, thoải mái</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Giày công sở</h3>
+                    <p>Lịch lãm, chuyên nghiệp</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3>Giày outdoor</h3>
+                    <p>Bền bỉ, chống nước</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Giày cao cấp</h3>
+                    <p>Sang trọng, đẳng cấp</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Sản phẩm nổi bật</h2>
+            
+            <!-- Filter -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="thethao">Thể thao</button>
+                    <button class="filter-btn" data-filter="congso">Công sở</button>
+                    <button class="filter-btn" data-filter="casual">Casual</button>
+                </div>
+                <div class="sort-group">
+                    <select class="sort-select">
+                        <option value="">Sắp xếp theo</option>
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                        <option value="newest">Mới nhất</option>
+                        <option value="best-seller">Bán chạy</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product grid (will be rendered by renderProducts.js) -->
+            <div class="product-grid"></div>
+
+            <!-- Modal Xem nhanh (để ngoài grid) -->
+            <div id="quick-view-modal" class="modal">
+              <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <img id="modal-img" src="" alt="Ảnh sản phẩm">
+                <h3 id="modal-name"></h3>
+                <div id="modal-rating"></div>
+                <div id="modal-price"></div>
+                <button class="add-to-cart" id="modal-add-to-cart">Thêm vào giỏ</button>
+              </div>
+            </div>
+
+            <div class="load-more">
+                <button class="load-more-btn">Xem thêm sản phẩm</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section id="brands" class="brands">
+        <div class="container">
+            <h2 class="section-title">Thương hiệu đối tác</h2>
+            <div class="brand-slider">
+                <div class="brand-item">Nike</div>
+                <div class="brand-item">Adidas</div>
+                <div class="brand-item">Puma</div>
+                <div class="brand-item">Converse</div>
+                <div class="brand-item">Vans</div>
+                <div class="brand-item">New Balance</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Đăng ký nhận tin</h2>
+                <p>Nhận thông tin về sản phẩm mới và ưu đãi đặc biệt</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Nhập email của bạn">
+                    <button type="submit">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-shoe-prints"></i>
+                        ShoeStore
+                    </div>
+                    <p>Cửa hàng giày nam chính hãng với chất lượng cao và dịch vụ tốt nhất.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Sản phẩm</h3>
+                    <ul>
+                        <li><a href="#">Giày thể thao</a></li>
+                        <li><a href="#">Giày công sở</a></li>
+                        <li><a href="#">Giày casual</a></li>
+                        <li><a href="#">Phụ kiện</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Hỗ trợ</h3>
+                    <ul>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">Chăm sóc khách hàng</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Liên hệ</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Nguyễn Văn A, Q1, TP.HCM</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> (028) 123 456 789</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@shoestore.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShoeStore. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="./js/products.js"></script>
+    <script src="./js/renderProducts.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
