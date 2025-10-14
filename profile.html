@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Cá Nhân - ShoeStore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/profile.css">
+</head>
+<body>
+    <!-- Nút trở về -->
+    <a href="index.html" class="nut-tro-ve">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <!-- Khung profile -->
+    <div class="khung-profile">
+  
+        <div class="tieu-de-profile">
+            <div class="logo-profile">
+                <i class="fas fa-user-circle"></i>
+                <h1>Hồ Sơ Cá Nhân</h1>
+            </div>
+            <p>Quản lý thông tin tài khoản của bạn</p>
+        </div>
+
+       
+        <div class="noi-dung-profile">
+           
+            <div class="avatar-section">
+                <div class="avatar-circle">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="trang-thai">
+                    <i class="fas fa-circle"></i>
+                    <span>Đang hoạt động</span>
+                </div>
+            </div>
+
+            <!-- Thông tin cá nhân -->
+            <div class="thong-tin-section">
+                <h3>Thông tin tài khoản</h3>
+
+                <!-- Họ tên -->
+                <div class="thong-tin-item">
+                    <label>
+                        <i class="fas fa-user"></i>
+                        Họ và tên
+                    </label>
+                    <div class="ho-ten-box">
+                        <span id="hienThiHoTen" class="gia-tri">Đang tải...</span>
+                        <input type="text" id="inputHoTen" class="input-sua" style="display: none;">
+                        <button id="nutSuaHoTen" class="nut-sua">
+                            <i class="fas fa-edit"></i>
+                            Sửa
+                        </button>
+                    </div>
+                    <div id="loiHoTen" class="thong-bao-loi"></div>
+                </div>
+
+                <!-- Tên đăng nhập -->
+                <div class="thong-tin-item">
+                    <label>
+                        <i class="fas fa-at"></i>
+                        Tên đăng nhập
+                    </label>
+                    <div class="gia-tri chi-doc" id="hienThiTenDangNhap">Đang tải...</div>
+                    <div class="ghi-chu">Không thể thay đổi</div>
+                </div>
+
+                <!-- Email -->
+                <div class="thong-tin-item">
+                    <label>
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </label>
+                    <div class="ho-ten-box">
+                        <span id="hienThiEmail" class="gia-tri">Đang tải...</span>
+                        <input type="email" id="inputEmail" class="input-sua" style="display: none;">
+                        <button id="nutSuaEmail" class="nut-sua">
+                            <i class="fas fa-edit"></i>
+                            Sửa
+                        </button>
+                    </div>
+                    <div id="loiEmail" class="thong-bao-loi"></div>
+                </div>
+
+                <!-- Thời gian đăng nhập -->
+                <div class="thong-tin-item">
+                    <label>
+                        <i class="fas fa-clock"></i>
+                        Đăng nhập gần nhất
+                    </label>
+                    <div class="gia-tri chi-doc" id="hienThiThoiGian">Đang tải...</div>
+                </div>
+            </div>
+
+            <!-- Thay đổi mật khẩu -->
+            <div class="mat-khau-section">
+                <h3>Bảo mật</h3>
+                <div class="thong-tin-item">
+                    <label>
+                        <i class="fas fa-lock"></i>
+                        Mật khẩu
+                    </label>
+                    <button id="nutDoiMatKhau" class="nut-doi-mat-khau">
+                        <i class="fas fa-key"></i>
+                        Đổi mật khẩu
+                    </button>
+                </div>
+
+                <!-- Form đổi mật khẩu(ẩn mặc định)-->
+                <div id="formDoiMatKhau" class="form-doi-mat-khau" style="display: none;">
+                    <div class="nhom-input">
+                        <label>Mật khẩu hiện tại</label>
+                        <div class="o-nhap-lieu">
+                            <i class="icon-truoc fas fa-lock"></i>
+                            <input type="password" id="matKhauCu" placeholder="Nhập mật khẩu hiện tại">
+                            <i class="icon-sau fas fa-eye hien-mat-khau" data-target="matKhauCu"></i>
+                        </div>
+                        <div id="loiMatKhauCu" class="thong-bao-loi"></div>
+                    </div>
+
+                    <div class="nhom-input">
+                        <label>Mật khẩu mới</label>
+                        <div class="o-nhap-lieu">
+                            <i class="icon-truoc fas fa-lock"></i>
+                            <input type="password" id="matKhauMoi" placeholder="Nhập mật khẩu mới">
+                            <i class="icon-sau fas fa-eye hien-mat-khau" data-target="matKhauMoi"></i>
+                        </div>
+                        <div id="loiMatKhauMoi" class="thong-bao-loi"></div>
+                    </div>
+
+                    <div class="nhom-input">
+                        <label>Xác nhận mật khẩu mới</label>
+                        <div class="o-nhap-lieu">
+                            <i class="icon-truoc fas fa-lock"></i>
+                            <input type="password" id="xacNhanMatKhauMoi" placeholder="Nhập lại mật khẩu mới">
+                            <i class="icon-sau fas fa-eye hien-mat-khau" data-target="xacNhanMatKhauMoi"></i>
+                        </div>
+                        <div id="loiXacNhanMatKhauMoi" class="thong-bao-loi"></div>
+                    </div>
+
+                    <div class="nhom-nut-mat-khau">
+                        <button id="nutLuuMatKhau" class="nut-luu-mat-khau">
+                            <i class="fas fa-check"></i>
+                            Lưu mật khẩu
+                        </button>
+                        <button id="nutHuyMatKhau" class="nut-huy-mat-khau">
+                            <i class="fas fa-times"></i>
+                            Hủy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hành động -->
+            <div class="hanh-dong">
+                <button id="nutDangXuat" class="nut-dang-xuat">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/profile.js"></script>
+</body>
+</html>

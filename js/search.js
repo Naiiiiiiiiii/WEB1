@@ -1,10 +1,15 @@
-// Chức năng tìm kiếm cho ShoeStore
+/**
+ * search.js - Updated
+ * Chức năng tìm kiếm cho ShoeStore
+ * Yêu cầu: Product.js và productData.js phải được load trước
+ */
+
 (function() {
     'use strict';
 
     // Kiểm tra mảng sản phẩm có tồn tại không
     if (typeof products === 'undefined') {
-        console.error('Không tìm thấy mảng sản phẩm. Hãy chắc chắn products.js được load trước search.js');
+        console.error('Không tìm thấy mảng sản phẩm. Hãy chắc chắn Product.js và productData.js được load trước search.js');
         return;
     }
 
@@ -47,11 +52,6 @@
     let cart = JSON.parse(localStorage.getItem('cart_shoestore') || '[]');
 
     // === Helper Functions ===
-    function formatPrice(price) {
-        if (price == null || price === '') return '';
-        return new Intl.NumberFormat('vi-VN').format(price) + '₫';
-    }
-
     function escapeHtml(str = '') {
         return String(str)
             .replace(/&/g, "&amp;")
@@ -59,24 +59,6 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
-    }
-
-    function renderStars(rating) {
-        rating = Math.round(rating) || 0;
-        let html = '';
-        for (let i = 1; i <= 5; i++) {
-            html += `<i class="${i <= rating ? 'fas' : 'far'} fa-star" aria-hidden="true"></i>`;
-        }
-        return html;
-    }
-
-    function getBadgeText(product) {
-        if (product.badge === 'sale' && product.oldPrice) {
-            const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
-            return `-${discount}%`;
-        }
-        const badgeMap = { 'hot': 'Hot', 'new': 'Mới', 'sale': 'Sale' };
-        return badgeMap[product.badge] || escapeHtml(product.badge);
     }
 
     // === Cart Functions ===
@@ -89,14 +71,19 @@
 
     function addToCart(productId, qty = 1) {
         const id = Number(productId);
-        const p = products.find(x => x.id === id);
-        if (!p) return;
+        const product = products.find(x => x.id === id);
+        if (!product) return;
         
         const existing = cart.find(i => i.id === id);
         if (existing) {
             existing.qty = (existing.qty || 1) + qty;
         } else {
-            cart.push({ id: p.id, name: p.name, price: p.price, qty });
+            cart.push({ 
+                id: product.id, 
+                name: product.name, 
+                price: product.price, 
+                qty 
+            });
         }
         updateCartCount();
     }
@@ -104,30 +91,33 @@
     // === Modal Functions ===
     function openQuickView(productId) {
         const id = Number(productId);
-        const p = products.find(x => x.id === id);
-        if (!p || !elements.modal) return;
+        const product = products.find(x => x.id === id);
+        if (!product || !elements.modal) return;
 
-        console.log('Opening quick view for product:', p);
+        console.log('Opening quick view for product:', product);
 
-        // Populate modal
+        // Populate modal using Product class methods
         if (elements.modalImg) {
-            elements.modalImg.src = p.img || './img/NAME.avif';
-            elements.modalImg.alt = p.name;
+            elements.modalImg.src = product.img || './img/NAME.avif';
+            elements.modalImg.alt = product.name;
         }
         if (elements.modalName) {
-            elements.modalName.textContent = p.name;
+            elements.modalName.textContent = product.name;
         }
         if (elements.modalRating) {
             elements.modalRating.innerHTML = `
-                <div class="stars">${renderStars(p.rating)}</div>
-                <span class="rating-text">(${p.ratingCount || 0})</span>
+                <div class="stars">${product.renderStars()}</div>
+                <span class="rating-text">(${product.ratingCount || 0})</span>
             `;
         }
         if (elements.modalPrice) {
-            const priceHtml = p.oldPrice 
-                ? `<span class="current-price">${formatPrice(p.price)}</span> <span class="old-price">${formatPrice(p.oldPrice)}</span>`
-                : `<span class="current-price">${formatPrice(p.price)}</span>`;
-            elements.modalPrice.innerHTML = priceHtml;
+            const oldPriceHtml = product.oldPrice 
+                ? `<span class="old-price">${product.getFormattedOldPrice()}</span>`
+                : '';
+            elements.modalPrice.innerHTML = `
+                <span class="current-price">${product.getFormattedPrice()}</span> 
+                ${oldPriceHtml}
+            `;
         }
 
         // Set dataset cho modal add-to-cart button
@@ -154,9 +144,10 @@
         card.className = 'product-card';
         card.dataset.id = product.id;
 
+        const badgeText = product.getBadgeText();
         const badgeHtml = product.badge ? `
             <div class="product-badge ${escapeHtml(product.badge)}">
-                ${getBadgeText(product)}
+                ${escapeHtml(badgeText)}
             </div>` : '';
 
         const imgHtml = product.img 
@@ -164,13 +155,13 @@
             : `<i class="fas fa-shoe-prints product-icon" aria-hidden="true"></i>`;
 
         const priceHtml = product.oldPrice
-            ? `<span class="current-price">${formatPrice(product.price)}</span> 
-               <span class="old-price">${formatPrice(product.oldPrice)}</span>`
-            : `<span class="current-price">${formatPrice(product.price)}</span>`;
+            ? `<span class="current-price">${product.getFormattedPrice()}</span> 
+               <span class="old-price">${product.getFormattedOldPrice()}</span>`
+            : `<span class="current-price">${product.getFormattedPrice()}</span>`;
 
         const ratingHtml = `
             <div class="product-rating">
-                <div class="stars">${renderStars(product.rating)}</div>
+                <div class="stars">${product.renderStars()}</div>
                 <span class="rating-text">(${product.ratingCount || 0})</span>
             </div>`;
 
@@ -202,20 +193,28 @@
         }
 
         return products.filter(product => {
+            // Filter by keyword
             if (currentFilters.keyword) {
                 const keyword = currentFilters.keyword.toLowerCase();
                 const productName = (product.name || '').toLowerCase();
                 if (!productName.includes(keyword)) return false;
             }
+            
+            // Filter by category
             if (currentFilters.category) {
                 if (product.category !== currentFilters.category) return false;
             }
+            
+            // Filter by min price
             if (currentFilters.minPrice !== null) {
                 if ((product.price || 0) < currentFilters.minPrice) return false;
             }
+            
+            // Filter by max price
             if (currentFilters.maxPrice !== null) {
                 if ((product.price || 0) > currentFilters.maxPrice) return false;
             }
+            
             return true;
         });
     }

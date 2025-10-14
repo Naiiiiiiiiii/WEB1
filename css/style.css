@@ -26,7 +26,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /*chia thành 3 phần, logo - trái, icons - phải => giữa còn lại*/
     align-items: center;
     padding: 0 20px;
 }
@@ -204,15 +204,14 @@ body {
     outline: none;
 }
 
-/* Grid: ensure items stretch to same height */
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    align-items: stretch; /* <-- important: make grid items stretch to same height */
+    align-items: stretch; 
 }
-
-/* Make card a vertical flex container so we can push button to bottom */
+/* Làm cho thẻ thành một hộp chứa flex theo chiều dọc để có thể đẩy nút xuống dưới cùng */
 .product-card {
     background: white;
     border-radius: 20px;
@@ -221,9 +220,9 @@ body {
     transition: all 0.3s;
     position: relative;
 
-    display: flex;             /* <-- added */
-    flex-direction: column;    /* <-- added */
-    height: 100%;              /* <-- ensure it fills grid cell */
+    display: flex;            
+    flex-direction: column;    /* <-- flex chiều dọc */
+    height: 100%;              
 }
 .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
 
@@ -241,7 +240,6 @@ body {
 .product-badge.sale { background: #2ed573; color: white; }
 .product-badge.new { background: #3742fa; color: white; }
 
-/* Image area: fixed height and not growing */
 .product-image {
     width: 100%;
     height: 250px;
@@ -254,7 +252,7 @@ body {
     position: relative;
     overflow: hidden;
 
-    flex: 0 0 250px;  /* <-- important: prevent image area from stretching */
+    flex: 0 0 250px;  /* <-- quan trọng: ngăn không cho vùng ảnh bị kéo giãn */
 }
 .product-img {
   width: 100%;
@@ -287,14 +285,26 @@ body {
     transition: all 0.3s;
 }
 .quick-view:hover { background: #ff6b35; color: white; }
+.view-detail-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #0077cc;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.view-detail-btn:hover {
+  background: #005fa3;
+}
 
-/* Product info: make it a column flex that can grow */
+
 .product-info {
     padding: 1.5rem;
-    display: flex;             /* <-- added */
-    flex-direction: column;    /* <-- added */
+    display: flex;             
+    flex-direction: column;    
     gap: 8px;
-    flex: 1 1 auto;            /* <-- take remaining height */
+    flex: 1 1 auto;            /* <-- lấy chiều cao con lại */
 }
 .product-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem; color: #333; }
 
@@ -306,7 +316,7 @@ body {
 .current-price { font-size: 1.4rem; color: #ff6b35; font-weight: bold; }
 .old-price { color: #999; text-decoration: line-through; margin-left: 10px; }
 
-/* Ensure button always at bottom of .product-info */
+
 .add-to-cart {
     width: 100%;
     background: linear-gradient(45deg, #ff6b35, #f7931e);
@@ -322,7 +332,7 @@ body {
     justify-content: center;
     gap: 8px;
 
-    margin-top: auto; /* <-- pushes button to bottom */
+    margin-top: auto; /* đẩy lên trên*/
     align-self: stretch;
 }
 .add-to-cart:hover { background: linear-gradient(45deg, #e55a2b, #e0831a); transform: translateY(-2px); }

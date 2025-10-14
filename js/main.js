@@ -25,7 +25,7 @@ function hienThiThongTinNguoiDung(thongTin) {
         userSection.innerHTML = `
             <div class="user-info">
                 <i class="fas fa-user-circle"></i>
-                <span class="user-name">${thongTin.hoTen}</span>
+                <a href="./profile.html" class= "user-name">${thongTin.hoTen}</a>
             </div>
             <button class="logout-btn" onclick="dangXuat()" title="Đăng xuất">
                 <i class="fas fa-sign-out-alt"></i>
@@ -158,7 +158,9 @@ const styleCSS = `
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: nowrap; /* Giữ trên một dòng */
+    text-decoration: none;
+    color: white;  
 }
 
 .logout-btn {

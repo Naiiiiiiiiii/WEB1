@@ -1,21 +1,17 @@
+// Import User classes
+import { User, UserManager } from './user.js';
+
 // Biến toàn cục
 const formDangNhap = document.getElementById('formDangNhap');
 const formDangKy = document.getElementById('formDangKy');
 
-// Danh sách tài khoản (demo)
-let danhSachTaiKhoan = [
-    {
-        hoTen: 'Admin ShoeStore',
-        tenDangNhap: 'admin',
-        email: 'admin@shoestore.com',
-        matKhau: 'Admin123'
-    }
-];
+// Khởi tạo UserManager
+const userManager = new UserManager();
 
 // Khởi tạo khi trang load
 document.addEventListener('DOMContentLoaded', function() {
     khoiTaoSuKien();
-    console.log('📝 Tài khoản demo: admin / Admin123');
+    console.log('🔑 Tài khoản demo: admin / Admin123');
 });
 
 // Khởi tạo sự kiện
@@ -39,6 +35,15 @@ function khoiTaoSuKien() {
                 this.classList.replace('fa-eye-slash', 'fa-eye');
             }
         });
+    });
+
+    // Remove error messages on input
+    document.getElementById('emailDangKy').addEventListener('input', () => {
+        xoaLoi('loiEmailDangKy');
+    });
+
+    document.getElementById('phone').addEventListener('input', () => {
+        xoaLoi('loiPhoneDangKy');
     });
 
     // Form submit
@@ -80,18 +85,18 @@ function xuLyDangNhap(event) {
     hienLoading('loadingDangNhap');
     
     setTimeout(() => {
-        const taiKhoan = danhSachTaiKhoan.find(tk => 
-            (tk.tenDangNhap === tenDangNhap || tk.email === tenDangNhap) && tk.matKhau === matKhau
-        );
+        // Sử dụng UserManager để tìm tài khoản
+        const taiKhoan = userManager.timTaiKhoan(tenDangNhap, matKhau);
         
         anLoading('loadingDangNhap');
         
         if (taiKhoan) {
-            // Lưu thông tin đăng nhập
+            // Lưu thông tin đăng nhập (BAO GỒM MẬT KHẨU)
             const thongTinDangNhap = {
                 hoTen: taiKhoan.hoTen,
                 tenDangNhap: taiKhoan.tenDangNhap,
                 email: taiKhoan.email,
+                matKhau: taiKhoan.matKhau, // ✅ THÊM DÒNG NÀY
                 thoiGianDangNhap: new Date().toISOString()
             };
             
@@ -100,7 +105,10 @@ function xuLyDangNhap(event) {
             alert(`Chào mừng ${taiKhoan.hoTen}!`);
             window.location.href = 'index.html';
         } else {
-            const coTaiKhoan = danhSachTaiKhoan.find(tk => tk.tenDangNhap === tenDangNhap || tk.email === tenDangNhap);
+            // Kiểm tra xem tài khoản có tồn tại không
+            const coTaiKhoan = userManager.tonTaiTenDangNhap(tenDangNhap) || 
+                               userManager.tonTaiEmail(tenDangNhap);
+            
             if (coTaiKhoan) {
                 hienLoi('loiMatKhauDangNhap', 'Mật khẩu không đúng');
             } else {
@@ -110,16 +118,19 @@ function xuLyDangNhap(event) {
     }, 800);
 }
 
-// Xử lý đăng ký - đã đơn giản hóa
+// Xử lý đăng ký
 function xuLyDangKy(event) {
     event.preventDefault();
     
     const hoTen = document.getElementById('hoTen').value.trim();
     const tenDangKy = document.getElementById('tenDangKy').value.trim();
     const email = document.getElementById('emailDangKy').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.com$/;
     const matKhau = document.getElementById('matKhauDangKy').value;
     const xacNhan = document.getElementById('xacNhanMatKhau').value;
-    
+    const phone = document.getElementById('phone').value.trim();
+    const phonePattern = /^0\d{9}$/;
+
     let hopLe = true;
     
     // Kiểm tra cơ bản
@@ -133,10 +144,15 @@ function xuLyDangKy(event) {
         hopLe = false;
     }
     
-    if (!email || !email.includes('@')) {
+    if (!email || !emailPattern.test(email)) {
         hienLoi('loiEmailDangKy', 'Email không đúng định dạng');
         hopLe = false;
     }
+
+    if (!phonePattern.test(phone)) {
+        hienLoi('loiPhoneDangKy', 'Số điện thoại không đúng định dạng');
+        hopLe = false;
+    } 
     
     if (!matKhau || matKhau.length < 6) {
         hienLoi('loiMatKhauDangKy', 'Mật khẩu phải có ít nhất 6 ký tự');
@@ -148,13 +164,13 @@ function xuLyDangKy(event) {
         hopLe = false;
     }
     
-    // Kiểm tra trùng lặp
-    if (danhSachTaiKhoan.some(tk => tk.tenDangNhap === tenDangKy)) {
+    // Kiểm tra trùng lặp sử dụng UserManager
+    if (userManager.tonTaiTenDangNhap(tenDangKy)) {
         hienLoi('loiTenDangKy', 'Tên đăng nhập đã được sử dụng');
         hopLe = false;
     }
     
-    if (danhSachTaiKhoan.some(tk => tk.email === email)) {
+    if (userManager.tonTaiEmail(email)) {
         hienLoi('loiEmailDangKy', 'Email đã được sử dụng');
         hopLe = false;
     }
@@ -163,7 +179,9 @@ function xuLyDangKy(event) {
         hienLoading('loadingDangKy');
         
         setTimeout(() => {
-            danhSachTaiKhoan.push({ hoTen, tenDangNhap: tenDangKy, email, matKhau });
+            // Thêm tài khoản mới sử dụng UserManager
+            userManager.themTaiKhoan(hoTen, tenDangKy, email, matKhau);
+            
             anLoading('loadingDangKy');
             alert(`Đăng ký thành công! Chào mừng ${hoTen}`);
             

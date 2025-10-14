@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <script src="./js/products.js"></script>
-    <script src="./js/search.js"></script>
-    <script src="./js/quickview.js"></script>
-    <script src="./js/main.js"></script>
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
@@ -107,9 +103,9 @@
             <div class="filter-bar">
                 <div class="filter-group">
                     <button class="filter-btn active" data-filter="all">Tất cả</button>
-                    <button class="filter-btn" data-filter="thethao">Thể thao</button>
-                    <button class="filter-btn" data-filter="congso">Công sở</button>
-                    <button class="filter-btn" data-filter="casual">Casual</button>
+                    <button class="filter-btn" data-filter="Giày thể thao">Thể thao</button>
+                    <button class="filter-btn" data-filter="Giày công sở">Công sở</button>
+                    <button class="filter-btn" data-filter="Giày casual">Casual</button>
                 </div>
                 <div class="sort-group">
                     <select class="sort-select">
@@ -123,9 +119,9 @@
             </div>
 
             <!-- Product grid (will be rendered by renderProducts.js) -->
-            <div class="product-grid" ></div>
+            <div class="product-grid"></div>
 
-            <!-- Modal Xem nhanh (để ngoài grid) -->
+            <!-- Modal Xem nhanh -->
             <div id="quick-view-modal" class="modal">
               <div class="modal-content">
                 <span class="close-btn">&times;</span>
@@ -134,6 +130,7 @@
                 <div id="modal-rating"></div>
                 <div id="modal-price"></div>
                 <button class="add-to-cart" id="modal-add-to-cart">Thêm vào giỏ</button>
+                <a href="./product-detail.html" id="modal-view-detail" class="view-detail-btn">Xem chi tiết</a>
               </div>
             </div>
 
@@ -222,13 +219,25 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 ShoeStore. Tất cả quyền được bảo lưu.</p>
+                <p>&copy; 2025 ShoeStore. Tất cả quyền được bảo lưu.</p>
             </div>
         </div>
     </footer>
     
-    <script src="./js/products.js"></script>
+    
+    <!-- 1. Product class definition -->
+    <script src="./js/Product.js"></script>
+    
+    <!-- 2. Product data (tạo biến global products) -->
+    <script src="./js/productData.js"></script>
+    
+    <!-- 3. Render products (sử dụng products) -->
     <script src="./js/renderProducts.js"></script>
+    
+    <!-- 4. Quick view modal -->
+    <script src="./js/quickview.js"></script>
+    
+    <!-- 5. Main script -->
     <script src="./js/main.js"></script>
 </body>
 </html>

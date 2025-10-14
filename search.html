@@ -197,9 +197,17 @@
         </div>
     </footer>
 
-    <!-- Scripts - Thứ tự quan trọng! -->
-    <script src="./js/products.js"></script>
+    <!-- QUAN TRỌNG: Thứ tự load script -->
+    <!-- 1. Product class definition -->
+    <script src="./js/Product.js"></script>
+    
+    <!-- 2. Product data (tạo biến global products) -->
+    <script src="./js/productData.js"></script>
+    
+    <!-- 3. Search functionality -->
     <script src="./js/search.js"></script>
+    
+    <!-- 4. Main script -->
     <script src="./js/main.js"></script>
 </body>
 </html>

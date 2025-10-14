@@ -16,7 +16,7 @@ body {
     position: relative;
 }
 
-/* NÃºt trá»Ÿ vá» */
+
 .nut-tro-ve {
     position: absolute;
     top: 30px;
@@ -41,7 +41,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Khung chÃ­nh */
+
 .khung-dang-nhap {
     background: white;
     border-radius: 20px;
@@ -63,7 +63,7 @@ body {
     }
 }
 
-/* TiÃªu Ä‘á» form */
+
 .tieu-de-form {
     background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
     color: white;
@@ -159,7 +159,7 @@ body {
     width: 60%;
 }
 
-/* Ná»™i dung tab */
+
 .noi-dung-tab {
     display: none;
     padding: 2rem;
@@ -251,7 +251,7 @@ body {
     color: #ff6b35;
 }
 
-/* ThÃ´ng bÃ¡o lá»—i vÃ  thÃ nh cÃ´ng */
+
 .thong-bao-loi {
     color: #e74c3c;
     font-size: 0.85rem;
@@ -287,7 +287,7 @@ body {
     }
 }
 
-/* YÃªu cáº§u máº­t kháº©u */
+
 .yeu-cau-mat-khau {
     background: #f8f9fa;
     border-radius: 10px;
@@ -345,7 +345,7 @@ body {
     content: '\f00c';
 }
 
-/* TÃ¹y chá»n form */
+
 .tuy-chon-form {
     display: flex;
     align-items: center;
@@ -406,7 +406,7 @@ body {
     text-decoration: underline;
 }
 
-/* NÃºt gá»­i */
+
 .nut-gui {
     width: 100%;
     background: linear-gradient(45deg, #ff6b35, #f7931e);
