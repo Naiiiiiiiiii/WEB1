@@ -1,5 +1,5 @@
 /**
- * search.js - Updated
+ * search.js - Updated with View Detail Link
  * Chức năng tìm kiếm cho ShoeStore
  * Yêu cầu: Product.js và productData.js phải được load trước
  */
@@ -36,6 +36,7 @@
         modalRating: document.getElementById('modal-rating'),
         modalPrice: document.getElementById('modal-price'),
         modalAddBtn: document.getElementById('modal-add-to-cart'),
+        modalViewDetail: document.getElementById('modal-view-detail'),
         closeBtn: document.querySelector('.close-btn')
     };
 
@@ -47,6 +48,7 @@
         minPrice: null,
         maxPrice: null
     };
+    let currentProductId = null; // Store current product ID for modal
 
     // Giỏ hàng
     let cart = JSON.parse(localStorage.getItem('cart_shoestore') || '[]');
@@ -95,6 +97,7 @@
         if (!product || !elements.modal) return;
 
         console.log('Opening quick view for product:', product);
+        currentProductId = id; // Store current product ID
 
         // Populate modal using Product class methods
         if (elements.modalImg) {
@@ -125,6 +128,11 @@
             elements.modalAddBtn.dataset.id = id;
         }
 
+        // Update view detail link
+        if (elements.modalViewDetail) {
+            elements.modalViewDetail.href = `./product-detail.html?id=${id}`;
+        }
+
         // Show modal
         elements.modal.style.display = 'flex';
         elements.modal.classList.add('open');
@@ -136,6 +144,7 @@
         elements.modal.style.display = 'none';
         elements.modal.classList.remove('open');
         elements.modal.setAttribute('aria-hidden', 'true');
+        currentProductId = null;
     }
 
     // === Product Card Creation ===
@@ -382,7 +391,7 @@
             }
         });
 
-        // Event delegation cho quick-view và add-to-cart
+        // Event delegation cho quick-view, view-detail và add-to-cart
         elements.searchResults.addEventListener('click', function (e) {
             // Quick View
             const qv = e.target.closest('.quick-view');
@@ -391,6 +400,13 @@
                 const id = qv.dataset.id;
                 console.log('Quick view clicked for ID:', id);
                 openQuickView(id);
+                return;
+            }
+
+            // View Detail - let default link behavior work
+            const vd = e.target.closest('.view-detail');
+            if (vd) {
+                // Link will navigate naturally
                 return;
             }
 
