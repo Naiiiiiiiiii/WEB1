@@ -1,0 +1,107 @@
+* {
+    margin: 0; padding: 0; box-sizing: border-box; 
+}
+
+.form_login {
+    width: 390px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color:rgb(118, 203, 194);
+}
+
+.form_login h1 {
+    font-style: o;
+    text-align: center;
+    margin-bottom: 13px;
+    color: #333;
+}
+
+.form_login label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form_login input[type="text"],
+.form_login input[type="password"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.form_login button {
+    width: 69%;
+    padding: 10px;
+    background-color:rgb(93, 153, 216);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px #000;
+    display: block;
+    margin: 0 auto
+}
+
+.form_login button:hover {
+    background-color:rgb(239, 20, 100);
+}
+
+.form_login p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.header {
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+    color: white;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /*chia thành 3 phần, logo - trái, icons - phải => giữa còn lại*/
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ff6b35;
+}
+
+.nav-menu ul { display: flex; list-style: none; gap: 2rem; }
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+.nav-menu a:hover { color: #ff6b35; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f8f9fa;
+}
+
+.home-content {
+    margin-top: 90px;
+}
