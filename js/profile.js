@@ -249,7 +249,7 @@ function dangXuat() {
     if (xacNhan) {
         localStorage.removeItem('nguoiDungHienTai');
         alert('Đã đăng xuất thành công!');
-        window.location.href = 'dangnhap.html';
+        window.location.href = 'index.html';
     }
 }
 
