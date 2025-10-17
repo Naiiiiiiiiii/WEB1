@@ -56,9 +56,7 @@ const LOGIN_MODAL_HTML = `
                             <div class="thong-bao-loi" id="loiMatKhau"></div>
                         </div>
 
-                        <div class="tuy-chon">
-                            <a href="#">Quên mật khẩu?</a>
-                        </div>
+                        
 
                         <button type="submit" class="nut-gui">
                             <span class="chu-nut">Đăng nhập</span>

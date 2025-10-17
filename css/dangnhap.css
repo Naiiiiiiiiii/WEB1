@@ -241,23 +241,6 @@
     border: 1px solid #c3e6cb;
 }
 
-/* Options */
-.tuy-chon {
-    text-align: right;
-    margin-bottom: 20px;
-}
-
-.tuy-chon a {
-    color: #ff6b35;
-    font-size: 13px;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.tuy-chon a:hover {
-    color: #e55a2b;
-    text-decoration: underline;
-}
 
 /* Submit button */
 .nut-gui {
