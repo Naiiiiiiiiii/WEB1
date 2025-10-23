@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sản phẩm - ShoeStore</title>
+  <link rel="stylesheet" href="./css/product-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-shoe-prints"></i>
+        ShoeStore
+      </div>
+      
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="./index.html">Trang chủ</a></li>
+          <li><a href="./index.html#products">Sản phẩm</a></li>
+          <li><a href="./index.html#brands">Thương hiệu</a></li>
+          <li><a href="#about">Giới thiệu</a></li>
+          <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-icons">
+        <a href="./search.html"><i class="fas fa-search"></i></a>
+        <a href="#wishlist"><i class="fas fa-heart"></i></a>
+        <a href="#cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+        <a href="./dangnhap.html"><i class="fas fa-user"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="product-detail" class="product-detail">
+      <!-- Nội dung sản phẩm sẽ được render bằng JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <i class="fas fa-shoe-prints"></i>
+            ShoeStore
+          </div>
+          <p>Cửa hàng giày nam chính hãng với chất lượng cao và dịch vụ tốt nhất.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Sản phẩm</h3>
+          <ul>
+            <li><a href="#">Giày thể thao</a></li>
+            <li><a href="#">Giày công sở</a></li>
+            <li><a href="#">Giày casual</a></li>
+            <li><a href="#">Phụ kiện</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li><a href="#">Chính sách đổi trả</a></li>
+            <li><a href="#">Hướng dẫn mua hàng</a></li>
+            <li><a href="#">Chăm sóc khách hàng</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Liên hệ</h3>
+          <ul>
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Nguyễn Văn A, Q1, TP.HCM</a></li>
+            <li><a href="#"><i class="fas fa-phone"></i> (028) 123 456 789</a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i> info@shoestore.com</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShoeStore. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Import dữ liệu sản phẩm -->
+  <script src="./js/Product.js"></script>
+  <script src="./js/productData.js"></script>
+  <!-- Import logic hiển thị chi tiết -->
+  <script src="./js/product-detail.js"></script>
+</body>
+</html>
