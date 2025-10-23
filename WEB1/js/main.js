@@ -236,3 +236,80 @@ if (!document.querySelector('#user-styles')) {
     styleElement.textContent = styleCSS;
     document.head.appendChild(styleElement);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+            const wrapper = document.querySelector('.slides-wrapper');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const dots = document.querySelectorAll('.dot');
+            
+            if (!wrapper || slides.length === 0) {
+                console.error("Lỗi: Không tìm thấy '.slides-wrapper' hoặc '.slide'");
+                return;
+            }
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            const slideInterval = 4000; // 4 giây
+            let autoSlideTimer;
+
+            function updateSlide(index) {
+                currentSlide = index;
+                const offset = currentSlide * -100;
+                wrapper.style.transform = `translateX(${offset}%)`;
+                
+                // Cập nhật active dot
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+            }
+
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % totalSlides;
+                updateSlide(nextIndex);
+            }
+
+            function prevSlide() {
+                const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlide(prevIndex);
+            }
+
+            function startAutoSlide() {
+                autoSlideTimer = setInterval(nextSlide, slideInterval);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(autoSlideTimer);
+            }
+
+            // Sự kiện nút prev/next
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                stopAutoSlide();
+                startAutoSlide(); // Khởi động lại auto slide
+            });
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+
+            // Sự kiện dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideIndex = parseInt(dot.dataset.slide);
+                    updateSlide(slideIndex);
+                    stopAutoSlide();
+                    startAutoSlide();
+                });
+            });
+
+            // Dừng auto khi hover
+            wrapper.addEventListener('mouseenter', stopAutoSlide);
+            wrapper.addEventListener('mouseleave', startAutoSlide);
+
+            // Bắt đầu auto slide
+            startAutoSlide();
+        });
