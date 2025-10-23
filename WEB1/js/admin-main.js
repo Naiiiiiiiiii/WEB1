@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const defaultSection = window.location.hash || '#main';
+    const defaultSection = window.location.hash || '#index';
     showSection(defaultSection);
 
     const logout = document.querySelector('a.logout');
@@ -112,6 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'admin-login.html';
             }
         });
+    }
+
+    const userManager = new UserManager();
+    const accountCountEl = document.getElementById('countAccount');
+    if (accountCountEl) {
+        const count = Array.isArray(userManager.users) ? userManager.users.length : 0;
+        accountCountEl.textContent = `Số tài khoản hiện có: ${count}`;
     }
 });
 

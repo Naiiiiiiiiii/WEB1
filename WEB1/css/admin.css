@@ -5,61 +5,6 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-.form_login {
-    width: 390px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color:rgb(118, 203, 194);
-}
-
-.form_login h1 {
-    font-style: o;
-    text-align: center;
-    margin-bottom: 13px;
-    color: #333;
-}
-
-.form_login label {
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-}
-
-.form_login input[type="text"],
-.form_login input[type="password"] {
-    width: 95%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 13px;
-}
-
-.form_login button {
-    width: 69%;
-    padding: 10px;
-    background-color:rgb(93, 153, 216);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-shadow: 2px 2px 4px #000;
-    display: block;
-    margin: 0 auto
-}
-
-.form_login button:hover {
-    background-color:rgb(239, 20, 100);
-}
-
-.form_login p {
-    text-align: center;
-    margin-top: 10px;
-}
-
 .menu {
     position: fixed;
     top: 0;
@@ -128,12 +73,17 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  font-size:large;
 }
 
 .logout {
   color: #e74c3c;
   margin-left: 10px;
   text-decoration: none;
+}
+
+.logout:hover{
+    color:rgb(251, 255, 0);
 }
 
 body {
@@ -154,8 +104,28 @@ body {
 
 
 .main-content h2 {
-    font-size: xx-large;
+    font-size: 44px;
     margin-bottom: 39px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+
+
+.index-content {
+    font-size: 44px;
+    font-weight: bold;
+    display: grid;
+}
+
+.index-content1 {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 65px 0;
+}
+
+.index-content2 {
     display: flex;
     justify-content: center;
 }

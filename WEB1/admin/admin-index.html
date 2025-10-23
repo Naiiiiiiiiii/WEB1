@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giày Nam Cao Cấp - ShoeStore</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/WEB1/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -19,7 +19,7 @@
             
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="#main">Trang chủ</a></li>
+                    <li><a href="#index">Trang chủ</a></li>
                     <li><a href="#user">Quản lý tài khoản</a></li>
                     <li><a href="#products">Quản lý sản phẩm</a></li>
                     <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
@@ -30,14 +30,20 @@
 
     <div class="main-content">
         <div class="header">
-            <span>Chào, <b></b></span>
+            <span>Chào, <b>ADMIN</b></span>
             <a href="" class="logout">Đăng xuất</a>
         </div>
 
-        <section class="main" id="main">
-            <div>Số tài khoản hiện có:</div>
-            <div>Số sản phẩm hiện có:</div>
-            <div>Số đơn đặt hàng hiện có:</div>
+        <section class="index" id="index">
+            <div class="index-content">
+                <div class="index-content1">
+                    <div class="index-content" id="countAccount">Số tài khoản hiện có:</div>
+                    <div class="index-content" id="countProducts">Số sản phẩm hiện có:</div>
+                </div>
+                <div class="index-content2">
+                    <div class="index-content" id="countOrders">Số đơn đặt hàng hiện có:</div>
+                </div>
+            </div>
         </section>
 
         <section class="user" id="user">
@@ -74,5 +80,5 @@
 
 </body>
 
-<script type="module" src="/js/admin-main.js"></script>
+<script type="module" src="/WEB1/js/admin-main.js"></script>
 </html>
