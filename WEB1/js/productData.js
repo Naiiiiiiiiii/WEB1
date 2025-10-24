@@ -2,6 +2,12 @@
  * productData.js
  * File lưu trữ dữ liệu các sản phẩm có sẵn
  * Yêu cầu: Product.js phải được load trước file này
+ *
+ * Bổ sung cho quản lý tồn kho:
+ * - costPrice: Giá vốn
+ * - initialStock: Số lượng tồn đầu kỳ
+ * - lowStockThreshold: Ngưỡng cảnh báo sắp hết hàng
+ * - imports: Danh sách các phiếu nhập (date: ISO string, qty: số lượng, note: ghi chú)
  */
 
 const productDataList = [
@@ -15,12 +21,22 @@ const productDataList = [
     rating: 5,
     ratingCount: 128,
     badge: "hot",
-    description: "Giày thể thao CA Match với thiết kế hiện đại, đế cao su bền bỉ, chất liệu thoáng khí, phù hợp cho các hoạt động thể thao và dạo phố.",
+    description:
+      "Giày thể thao CA Match với thiết kế hiện đại, đế cao su bền bỉ, chất liệu thoáng khí, phù hợp cho các hoạt động thể thao và dạo phố.",
     images: [
       "./img/giaythethao_CAMatch.avif",
       "./img/giaythethao_CAMatch.avif",
-      "./img/giaythethao_CAMatch.avif"
-    ]
+      "./img/giaythethao_CAMatch.avif",
+    ],
+
+    // === Inventory fields ===
+    costPrice: 1650000,
+    initialStock: 25,
+    lowStockThreshold: 5,
+    imports: [
+      { date: "2025-09-30T00:00:00Z", qty: 10, note: "Nhập đợt 1" },
+      { date: "2025-10-10T00:00:00Z", qty: 5, note: "Nhập bổ sung" },
+    ],
   },
   {
     id: 2,
@@ -32,11 +48,21 @@ const productDataList = [
     rating: 4,
     ratingCount: 95,
     badge: "sale",
-    description: "Mẫu giày Suede Classic mang phong cách retro, chất liệu da lộn cao cấp, dễ phối đồ, phù hợp cho cả nam và nữ.",
+    description:
+      "Mẫu giày Suede Classic mang phong cách retro, chất liệu da lộn cao cấp, dễ phối đồ, phù hợp cho cả nam và nữ.",
     images: [
       "./img/Giày-thể-thao-Suede-Classic-Unisex.avif",
-      "./img/Giày-thể-thao-Suede-Classic-Unisex.avif"
-    ]
+      "./img/Giày-thể-thao-Suede-Classic-Unisex.avif",
+    ],
+
+    // === Inventory fields ===
+    costPrice: 1250000,
+    initialStock: 30,
+    lowStockThreshold: 6,
+    imports: [
+      { date: "2025-09-25T00:00:00Z", qty: 15, note: "Nhập đợt 1" },
+      { date: "2025-10-05T00:00:00Z", qty: 10, note: "Nhập đợt 2" },
+    ],
   },
   {
     id: 3,
@@ -48,11 +74,18 @@ const productDataList = [
     rating: 5,
     ratingCount: 203,
     badge: "new",
-    description: "Giày da công sở Germano Bellesi được sản xuất thủ công tại Ý, sử dụng da thật cao cấp, mang lại sự sang trọng và đẳng cấp cho phái mạnh.",
-    images: [
-      "./img/giaycongsoGERMANO.webp",
-      "./img/giaycongsoGERMANO.webp"
-    ]
+    description:
+      "Giày da công sở Germano Bellesi được sản xuất thủ công tại Ý, sử dụng da thật cao cấp, mang lại sự sang trọng và đẳng cấp cho phái mạnh.",
+    images: ["./img/giaycongsoGERMANO.webp", "./img/giaycongsoGERMANO.webp"],
+
+    // === Inventory fields ===
+    costPrice: 8200000,
+    initialStock: 8,
+    lowStockThreshold: 3,
+    imports: [
+      { date: "2025-09-15T00:00:00Z", qty: 5, note: "Nhập đợt 1" },
+      { date: "2025-10-01T00:00:00Z", qty: 3, note: "Nhập bổ sung" },
+    ],
   },
   {
     id: 4,
@@ -64,11 +97,15 @@ const productDataList = [
     rating: 4,
     ratingCount: 76,
     badge: null,
-    description: "Chelsea Boots MATURE phiên bản 2025 với thiết kế tối giản, chất liệu da bền đẹp, dễ phối đồ, phù hợp cho phong cách lịch lãm và cá tính.",
-    images: [
-      "./img/bootsnam.webp",
-      "./img/bootsnam.webp"
-    ]
+    description:
+      "Chelsea Boots MATURE phiên bản 2025 với thiết kế tối giản, chất liệu da bền đẹp, dễ phối đồ, phù hợp cho phong cách lịch lãm và cá tính.",
+    images: ["./img/bootsnam.webp", "./img/bootsnam.webp"],
+
+    // === Inventory fields ===
+    costPrice: 980000,
+    initialStock: 20,
+    lowStockThreshold: 4,
+    imports: [{ date: "2025-09-20T00:00:00Z", qty: 10, note: "Nhập đợt 1" }],
   },
   {
     id: 5,
@@ -80,11 +117,18 @@ const productDataList = [
     rating: 5,
     ratingCount: 156,
     badge: null,
-    description: "Sneaker DYNAMIC phiên bản 2025 với màu vàng bò nổi bật, thiết kế trẻ trung, đế êm ái, mang lại sự thoải mái cho cả ngày dài.",
-    images: [
-      "./img/casual_Dynamic.webp",
-      "./img/casual_Dynamic.webp"
-    ]
+    description:
+      "Sneaker DYNAMIC phiên bản 2025 với màu vàng bò nổi bật, thiết kế trẻ trung, đế êm ái, mang lại sự thoải mái cho cả ngày dài.",
+    images: ["./img/casual_Dynamic.webp", "./img/casual_Dynamic.webp"],
+
+    // === Inventory fields ===
+    costPrice: 960000,
+    initialStock: 28,
+    lowStockThreshold: 6,
+    imports: [
+      { date: "2025-09-28T00:00:00Z", qty: 12, note: "Nhập đợt 1" },
+      { date: "2025-10-12T00:00:00Z", qty: 6, note: "Nhập bổ sung" },
+    ],
   },
   {
     id: 6,
@@ -96,13 +140,34 @@ const productDataList = [
     rating: 4,
     ratingCount: 89,
     badge: "sale",
-    description: "Giày Warrior 2025 với phong cách trẻ trung, giá cả hợp lý, chất liệu nhẹ và bền, phù hợp cho sinh viên và giới trẻ năng động.",
-    images: [
-      "./img/casual_Warrior.png",
-      "./img/casual_Warrior.png"
-    ]
-  }
+    description:
+      "Giày Warrior 2025 với phong cách trẻ trung, giá cả hợp lý, chất liệu nhẹ và bền, phù hợp cho sinh viên và giới trẻ năng động.",
+    images: ["./img/casual_Warrior.png", "./img/casual_Warrior.png"],
+
+    // === Inventory fields ===
+    costPrice: 370000,
+    initialStock: 40,
+    lowStockThreshold: 8,
+    imports: [
+      { date: "2025-09-18T00:00:00Z", qty: 20, note: "Nhập đợt 1" },
+      { date: "2025-10-08T00:00:00Z", qty: 10, note: "Nhập đợt 2" },
+    ],
+  },
 ];
 
 // Khởi tạo mảng products từ Product class
-const products = productDataList.map(data => new Product(data));
+const products = productDataList.map((data) => new Product(data));
+
+/**
+ * Gợi ý (tùy chọn) nếu bạn cần đồng bộ với trang admin tồn kho dùng localStorage:
+ * localStorage.setItem('products', JSON.stringify(productDataList.map(p => ({
+ *   id: p.id,
+ *   name: p.name,
+ *   category: p.category,
+ *   costPrice: p.costPrice,
+ *   price: p.price,
+ *   initialStock: p.initialStock,
+ *   lowStockThreshold: p.lowStockThreshold,
+ *   imports: p.imports
+ * }))));
+ */

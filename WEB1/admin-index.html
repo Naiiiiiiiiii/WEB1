@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,13 +30,14 @@
                     <i class="fas fa-shoe-prints"></i>
                     ShoeStore
                 </div>
-                
+
                 <nav class="nav-menu">
                     <ul>
                         <li><a href="#index">Trang chủ</a></li>
                         <li><a href="#user">Quản lý tài khoản</a></li>
                         <li><a href="#products">Quản lý sản phẩm</a></li>
                         <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
+                        <li><a href="#inventory">Quản lý tồn kho</a></li>
                     </ul>
                 </nav>
             </div>
@@ -77,19 +79,160 @@
             </section>
 
             <section class="products" id="products">
-                <h2>Quản lý sản phẩm</h2>   
+                <h2>Quản lý sản phẩm</h2>
             </section>
 
             <section class="orders" id="orders">
                 <h2>Quản lý đơn đặt hàng</h2>
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="orderFilterFrom">Từ ngày</label>
+                        <input type="date" id="orderFilterFrom">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterTo">Đến ngày</label>
+                        <input type="date" id="orderFilterTo">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterStatus">Trạng thái</label>
+                        <select id="orderFilterStatus" class="w-160">
+                            <option value="all">Tất cả</option>
+                            <option value="new">Mới đặt</option>
+                            <option value="processed">Đã xử lý</option>
+                            <option value="delivered">Đã giao</option>
+                            <option value="canceled">Hủy</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="orderFilterApply">Lọc</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="orderFilterReset">Đặt lại</button>
+                    </div>
+                </div>
+
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã đơn</th>
+                            <th class="nowrap w-120">Ngày đặt</th>
+                            <th>Khách hàng</th>
+                            <th class="right w-120">Tổng tiền</th>
+                            <th class="w-160">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="ordersPagination"></div>
+
+                <div class="panel" id="orderDetailBox" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Chi tiết đơn hàng</h3>
+                            <div id="orderDetailMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="orderDetailClose">Đóng</button>
+                        </div>
+                    </div>
+                    <div id="orderDetailItems"></div>
+                </div>
             </section>
+
+            <section class="inventory" id="inventory">
+                <h2>Quản lý tồn kho</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="invAsOfDate">Tồn tại thời điểm</label>
+                        <input type="date" id="invAsOfDate">
+                    </div>
+                    <div class="field">
+                        <label for="invFilterCategory">Phân loại</label>
+                        <select id="invFilterCategory" class="w-160">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="invFilterName">Tên sản phẩm</label>
+                        <input type="text" id="invFilterName" placeholder="Nhập tên sản phẩm...">
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="invFilterApply">Tra cứu</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="invFilterReset">Đặt lại</button>
+                    </div>
+                </div>
+
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã SP</th>
+                            <th>Tên</th>
+                            <th class="nowrap">Loại</th>
+                            <th class="right nowrap w-120">Tồn</th>
+                            <th class="right nowrap w-120">Ngưỡng cảnh báo</th>
+                            <th class="nowrap">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="panel" id="movementsPanel" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Lịch sử nhập – xuất – tồn</h3>
+                            <div id="movementsMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="movementsClose">Đóng</button>
+                        </div>
+                    </div>
+
+                    <div class="section-toolbar">
+                        <div class="field">
+                            <label for="mvFrom">Từ ngày</label>
+                            <input type="date" id="mvFrom">
+                        </div>
+                        <div class="field">
+                            <label for="mvTo">Đến ngày</label>
+                            <input type="date" id="mvTo">
+                        </div>
+                        <div class="field">
+                            <button class="btn primary" id="mvApply">Xem</button>
+                        </div>
+                    </div>
+
+                    <table id="movementsTable">
+                        <thead>
+                            <tr>
+                                <th class="nowrap w-120">Ngày</th>
+                                <th>Loại</th>
+                                <th class="right w-120">SL</th>
+                                <th class="right w-120">Tồn sau</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </section>
+
 
         </div>
     </div>
 
-    
+
 </body>
 
 <script type="module" src="./js/admin.js"></script>
 <script type="module" src="./js/userManagement.js"></script>
+<script src="./js/productData.js"></script>
+<script type="module" src="./js/admin-orders.js"></script>
+<script type="module" src="./js/admin-inventory.js"></script>
+
 </html>
