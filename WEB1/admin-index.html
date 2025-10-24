@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giày Nam Cao Cấp - ShoeStore</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="menu">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shoe-prints"></i>
+                ShoeStore
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#index">Trang chủ</a></li>
+                    <li><a href="#user">Quản lý tài khoản</a></li>
+                    <li><a href="#products">Quản lý sản phẩm</a></li>
+                    <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <span>Chào, <b>ADMIN</b></span>
+            <a href="" class="logout">Đăng xuất</a>
+        </div>
+
+        <section class="index" id="index">
+            <div class="index-content">
+                <div class="index-content1">
+                    <div class="index-content" id="countAccount">Số tài khoản hiện có:</div>
+                    <div class="index-content" id="countProducts">Số sản phẩm hiện có:</div>
+                </div>
+                <div class="index-content2">
+                    <div class="index-content" id="countOrders">Số đơn đặt hàng hiện có:</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="user" id="user">
+            <h2>Quản lý tài khoản người dùng</h2>
+<!--
+            <div class="form-container">
+                <table id="user-table">
+                    <thead>
+                        <tr>
+                            <th>Họ tên</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Email</th>
+                            <th>Mật khẩu</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+              </div>
+-->
+        </section>
+
+        <section class="products" id="products">
+            <h2>Quản lý sản phẩm</h2>   
+        </section>
+
+        <section class="orders" id="orders">
+            <h2>Quản lý đơn đặt hàng</h2>
+        </section>
+
+    </div>
+
+</body>
+
+<script type="module" src="./js/admin-main.js"></script>
+</html>
