@@ -1,4 +1,9 @@
-// Biến toàn cục
+
+
+import { UserManager } from './user.js'; 
+const userManager = new UserManager();      //  tạo UserManager
+
+
 let nguoiDungHienTai = null;
 
 // Khởi tạo khi trang load
@@ -21,7 +26,7 @@ function kiemTraDangNhap() {
     try {
         nguoiDungHienTai = JSON.parse(duLieu);
         
-        // ✅ THÊM: Kiểm tra nếu không có mật khẩu -> bắt đăng nhập lại
+        // Kiểm tra nếu không có mật khẩu -> bắt đăng nhập lại
         if (!nguoiDungHienTai.matKhau) {
             alert('Phiên đăng nhập cũ không hợp lệ. Vui lòng đăng nhập lại!');
             localStorage.removeItem('nguoiDungHienTai');
@@ -133,6 +138,11 @@ function suaThongTin(loai) {
         
         // Cập nhật thông tin
         nguoiDungHienTai[loai] = giaTriMoi;
+        
+        //  Cập nhật thông tin vào danh sách users CHÍNH
+        userManager.capNhatUser(nguoiDungHienTai);
+        
+        // Lưu thông tin phiên hiện tại (nguoiDungHienTai)
         localStorage.setItem('nguoiDungHienTai', JSON.stringify(nguoiDungHienTai));
         
         // Hiển thị lại span
@@ -150,7 +160,7 @@ function suaThongTin(loai) {
         // Thông báo thành công
         alert(`Cập nhật ${loai === 'hoTen' ? 'họ tên' : 'email'} thành công!`);
     } 
-    // Nếu đang ở chế độ xem -> Chuyển sang sửa
+    
     else {
         input.value = span.textContent;
         span.style.display = 'none';
@@ -235,6 +245,11 @@ function luuMatKhau() {
     if (hopLe) {
         // Cập nhật mật khẩu
         nguoiDungHienTai.matKhau = matKhauMoi;
+        
+        // Cập nhật mật khẩu vào danh sách users CHÍNH
+        userManager.capNhatUser(nguoiDungHienTai);
+        
+        // Lưu thông tin phiên hiện tại (nguoiDungHienTai)
         localStorage.setItem('nguoiDungHienTai', JSON.stringify(nguoiDungHienTai));
         
         alert('Đổi mật khẩu thành công!');

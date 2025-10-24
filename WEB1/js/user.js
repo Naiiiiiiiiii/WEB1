@@ -1,3 +1,4 @@
+
 // Định nghĩa class User
 class User {
   constructor(hoTen, tenDangNhap, email, matKhau) {
@@ -14,11 +15,9 @@ class User {
 }
 
 // Quản lý danh sách User với LocalStorage
-// Quản lý danh sách User với LocalStorage
 class UserManager {
   constructor() {
     this.STORAGE_KEY = 'shoestore_users';
-    // THAY ĐỔI 1: Đồng bộ key với profile.js
     this.CURRENT_USER_KEY = 'nguoiDungHienTai'; 
     this.users = this.taiDanhSachUser();
   }
@@ -35,7 +34,7 @@ class UserManager {
       console.error('Lỗi khi tải danh sách user:', error);
     }
     
-    // Nếu chưa có dữ liệu, tạo tài khoản admin mặc định
+    //  tạo tài khoản admin mặc định
     return [
       new User("Admin ShoeStore", "admin", "admin@shoestore.com", "Admin123")
     ];
@@ -58,7 +57,22 @@ class UserManager {
     }
   }
 
-  // THAY ĐỔI 2: Lưu đầy đủ thông tin user để profile.js có thể sử dụng
+  
+  capNhatUser(userMoi) {
+    const index = this.users.findIndex(u => u.tenDangNhap === userMoi.tenDangNhap);
+
+    if (index !== -1) {
+      // Cập nhật các thuộc tính
+      this.users[index].hoTen = userMoi.hoTen;
+      this.users[index].email = userMoi.email;
+      this.users[index].matKhau = userMoi.matKhau; 
+      
+      // Lưu danh sách users đã cập nhật vào LocalStorage
+      return this.luuDanhSachUser(); 
+    }
+    return false;
+  }
+  
   // Lưu thông tin user hiện tại đang đăng nhập
   luuUserHienTai(user) {
     try {
@@ -66,8 +80,8 @@ class UserManager {
         hoTen: user.hoTen,
         tenDangNhap: user.tenDangNhap,
         email: user.email,
-        matKhau: user.matKhau, // QUAN TRỌNG: Lưu lại mật khẩu để trang profile hoạt động
-        thoiGianDangNhap: new Date().toISOString() // Thêm thời gian đăng nhập
+        matKhau: user.matKhau, 
+        thoiGianDangNhap: new Date().toISOString()
       };
       localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
       return true;
@@ -128,4 +142,5 @@ class UserManager {
     return user;
   }
 }
+
 export { User, UserManager };
