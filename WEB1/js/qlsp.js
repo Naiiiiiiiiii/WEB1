@@ -1,253 +1,298 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // =========================
-  // 🔹 CÁC BIẾN CHÍNH
-  // =========================
-  const trangDangNhap = document.getElementById('loginPage');
-  const trangQuanTri = document.getElementById('adminPanel');
-  const formDangNhap = document.getElementById('formDangNhap');
-  const menuLinks = document.querySelectorAll('.nav-menu a');
-  const cacSection = document.querySelectorAll('.main-content section');
-  const nutDangXuat = document.querySelector('.logout');
+<!DOCTYPE html>
+<html lang="vi">
 
-  // =========================
-  // 🔹 HÀM XỬ LÝ CHUYỂN TRANG
-  // =========================
-  function hienTrangDangNhap() {
-    trangDangNhap.style.display = 'flex';
-    trangQuanTri.style.display = 'none';
-    window.location.hash = "";
-  }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giày Nam Cao Cấp - ShoeStore</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
 
-  function hienTrangQuanTri() {
-    trangDangNhap.style.display = 'none';
-    trangQuanTri.style.display = 'block';
-    chuyenSection('#index');
-  }
+<body>
+    <!-- ========== TRANG ĐĂNG NHẬP ========== -->
+    <div id="loginPage">
+        <form class="form_login" id="formDangNhap">
+            <h1>Đăng nhập</h1>
+            <label>Username</label>
+            <input type="text" id="username" placeholder="admin">
 
-  function kiemTraDangNhap() {
-    const daDangNhap = localStorage.getItem('isLoggedIn');
-    if (daDangNhap === 'true') {
-      hienTrangQuanTri();
-    } else {
-      hienTrangDangNhap();
-    }
-  }
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Admin123">
 
-  function chuyenSection(id) {
-    cacSection.forEach(sec => sec.classList.remove('active'));
-    const secChon = document.querySelector(id);
-    if (secChon) secChon.classList.add('active');
+            <button type="submit">Login</button>
+        </form>
+    </div>
 
-    menuLinks.forEach(link =>
-      link.classList.toggle('active', link.getAttribute('href') === id)
-    );
-  }
+    <!-- ========== GIAO DIỆN ADMIN ========== -->
+    <div id="adminPanel" style="display: none">
+        <!-- Menu trái -->
+        <div class="menu">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-shoe-prints"></i>
+                    ShoeStore
+                </div>
 
-  // =========================
-  // 🔹 XỬ LÝ ĐĂNG NHẬP / ĐĂNG XUẤT
-  // =========================
-  if (formDangNhap) {
-    formDangNhap.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="#index">Trang chủ</a></li>
+                        <li><a href="#user">Quản lý tài khoản</a></li>
+                        <li><a href="#products">Quản lý sản phẩm</a></li>
+                        <li><a href="#categories">Quản lý loại sản phẩm</a></li>
+                        <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
+                        <li><a href="#inventory">Quản lý tồn kho</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
 
-      if (user === 'admin' && pass === 'Admin123') {
-        localStorage.setItem('isLoggedIn', 'true');
-        alert('Đăng nhập thành công');
-        hienTrangQuanTri();
-      } else {
-        alert('Sai tài khoản hoặc mật khẩu!');
-      }
-    });
-  }
+        <!-- Nội dung chính -->
+        <div class="main-content">
+            <div class="header">
+                <span>Chào, <b>ADMIN</b></span>
+                <a href="" class="logout">Đăng xuất</a>
+            </div>
 
-  if (nutDangXuat) {
-    nutDangXuat.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirm('Bạn có muốn đăng xuất?')) {
-        localStorage.removeItem('isLoggedIn');
-        alert('Đăng xuất thành công');
-        hienTrangDangNhap();
-      }
-    });
-  }
+            <!-- ========== TRANG CHỦ ========== -->
+            <section class="index" id="index">
+                <div class="index-content">
+                    <div class="index-content1">
+                        <div class="index-content" id="countAccount">Số tài khoản hiện có:</div>
+                        <div class="index-content" id="countProducts">Số sản phẩm hiện có:</div>
+                    </div>
+                    <div class="index-content2">
+                        <div class="index-content" id="countOrders">Số đơn đặt hàng hiện có:</div>
+                    </div>
+                </div>
+            </section>
 
-  menuLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      chuyenSection(link.getAttribute('href'));
-    });
-  });
+            <!-- ========== QUẢN LÝ TÀI KHOẢN ========== -->
+            <section class="user" id="user">
+                <h2>Quản lý tài khoản người dùng</h2>
+                <div class="userTable-container">
+                    <table class="userTable" id="userTable">
+                        <thead>
+                            <tr>
+                                <th>Họ tên</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Email</th>
+                                <th>Quản lý</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
 
-  kiemTraDangNhap();
+            <!-- ========== QUẢN LÝ SẢN PHẨM ========== -->
+            <section class="products" id="products">
+                <h2>Quản lý sản phẩm</h2>
 
-  // =========================
-  // 🔹 PHẦN QUẢN LÝ NGƯỜI DÙNG
-  // =========================
-  const danhSachNguoiDung = [
-    { hoten: "Nguyễn Văn A", username: "nva", email: "nva@gmail.com" },
-    { hoten: "Trần Thị B", username: "ttb", email: "ttb@gmail.com" },
-    { hoten: "Lê Văn C", username: "lvc", email: "lvc@gmail.com" }
-  ];
+                <div class="product-form">
+                    <input type="text" id="tenSanPham" placeholder="Tên sản phẩm">
+                    <input type="number" id="giaSanPham" placeholder="Giá">
+                    <input type="text" id="loaiSanPham" placeholder="Loại">
+                    <button id="btnThemSanPham">Thêm sản phẩm</button>
+                </div>
 
-  function hienThiBangNguoiDung() {
-    const tbody = document.getElementById("userTableBody");
-    if (!tbody) return;
+                <div class="product-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Loại</th>
+                                <th>Quản lý</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                            <!-- Dữ liệu sản phẩm sẽ được JS chèn ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-    tbody.innerHTML = "";
+            <!-- ========== QUẢN LÝ LOẠI SẢN PHẨM ========== -->
+            <section class="categories" id="categories">
+                <h2>Quản lý loại sản phẩm</h2>
 
-    danhSachNguoiDung.forEach((nguoi, i) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${nguoi.hoten}</td>
-        <td>${nguoi.username}</td>
-        <td>${nguoi.email}</td>
-        <td>
-          <button class="btn-reset" data-index="${i}">🔁 Reset</button>
-          <button class="btn-delete" data-index="${i}">🗑 Xóa</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
+                <div class="section-toolbar">
+                    <button class="btn primary" id="btnNewCategory">+ Thêm loại sản phẩm</button>
+                </div>
 
-    document.querySelectorAll(".btn-reset").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const index = e.target.dataset.index;
-        alert(`Đã reset mật khẩu cho: ${danhSachNguoiDung[index].username}`);
-      });
-    });
+                <form id="categoryForm" class="hidden">
+                    <input type="hidden" id="editIndex">
+                    <input type="text" id="categoryName" placeholder="Nhập tên loại sản phẩm..." required>
+                    <button type="submit" class="btn save">Lưu</button>
+                    <button type="button" class="btn cancel" id="btnCancel">Hủy</button>
+                </form>
 
-    document.querySelectorAll(".btn-delete").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const index = e.target.dataset.index;
-        if (confirm(`Xóa người dùng "${danhSachNguoiDung[index].username}"?`)) {
-          danhSachNguoiDung.splice(index, 1);
-          hienThiBangNguoiDung();
-        }
-      });
-    });
-  }
-  hienThiBangNguoiDung();
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên loại</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoryTableBody">
+                            <!-- JS sẽ render dữ liệu vào đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-  // =========================
-  // 🔹 PHẦN QUẢN LÝ SẢN PHẨM
-  // =========================
-  const danhSachSanPham = [
-    { ten: "Nước suối", gia: 5000, loai: "Giải khát" },
-    { ten: "Cà phê lon", gia: 15000, loai: "Giải khát" },
-    { ten: "Bánh snack", gia: 10000, loai: "Ăn vặt" }
-  ];
+            <!-- ========== QUẢN LÝ ĐƠN HÀNG ========== -->
+            <section class="orders" id="orders">
+                <h2>Quản lý đơn đặt hàng</h2>
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="orderFilterFrom">Từ ngày</label>
+                        <input type="date" id="orderFilterFrom">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterTo">Đến ngày</label>
+                        <input type="date" id="orderFilterTo">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterStatus">Trạng thái</label>
+                        <select id="orderFilterStatus" class="w-160">
+                            <option value="all">Tất cả</option>
+                            <option value="new">Mới đặt</option>
+                            <option value="processed">Đã xử lý</option>
+                            <option value="delivered">Đã giao</option>
+                            <option value="canceled">Hủy</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="orderFilterApply">Lọc</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="orderFilterReset">Đặt lại</button>
+                    </div>
+                </div>
 
-  function hienThiSanPham() {
-    const tbody = document.getElementById("productTableBody");
-    if (!tbody) return;
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã đơn</th>
+                            <th class="nowrap w-120">Ngày đặt</th>
+                            <th>Khách hàng</th>
+                            <th class="right w-120">Tổng tiền</th>
+                            <th class="w-160">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="ordersPagination"></div>
 
-    tbody.innerHTML = "";
-    danhSachSanPham.forEach((sp, index) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${sp.ten}</td>
-        <td>${sp.gia.toLocaleString()} đ</td>
-        <td>${sp.loai}</td>
-        <td><button class="btn-xoa" data-index="${index}">Xóa</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
+                <div class="panel" id="orderDetailBox" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Chi tiết đơn hàng</h3>
+                            <div id="orderDetailMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="orderDetailClose">Đóng</button>
+                        </div>
+                    </div>
+                    <div id="orderDetailItems"></div>
+                </div>
+            </section>
 
-    document.querySelectorAll(".btn-xoa").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const i = e.target.dataset.index;
-        if (confirm(`Bạn có muốn xóa sản phẩm "${danhSachSanPham[i].ten}" không?`)) {
-          danhSachSanPham.splice(i, 1);
-          hienThiSanPham();
-        }
-      });
-    });
-  }
+            <!-- ========== QUẢN LÝ TỒN KHO ========== -->
+            <section class="inventory" id="inventory">
+                <h2>Quản lý tồn kho</h2>
 
-  const btnThemSanPham = document.getElementById("btnThemSanPham");
-  if (btnThemSanPham) {
-    btnThemSanPham.addEventListener("click", () => {
-      const ten = document.getElementById("tenSanPham").value.trim();
-      const gia = document.getElementById("giaSanPham").value.trim();
-      const loai = document.getElementById("loaiSanPham").value.trim();
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="invAsOfDate">Tồn tại thời điểm</label>
+                        <input type="date" id="invAsOfDate">
+                    </div>
+                    <div class="field">
+                        <label for="invFilterCategory">Phân loại</label>
+                        <select id="invFilterCategory" class="w-160">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="invFilterName">Tên sản phẩm</label>
+                        <input type="text" id="invFilterName" placeholder="Nhập tên sản phẩm...">
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="invFilterApply">Tra cứu</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="invFilterReset">Đặt lại</button>
+                    </div>
+                </div>
 
-      if (!ten || !gia || !loai) {
-        alert("Vui lòng nhập đầy đủ thông tin sản phẩm!");
-        return;
-      }
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã SP</th>
+                            <th>Tên</th>
+                            <th class="nowrap">Loại</th>
+                            <th class="right nowrap w-120">Tồn</th>
+                            <th class="right nowrap w-120">Ngưỡng cảnh báo</th>
+                            <th class="nowrap">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
 
-      danhSachSanPham.push({ ten, gia: parseInt(gia), loai });
-      hienThiSanPham();
+                <div class="panel" id="movementsPanel" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Lịch sử nhập – xuất – tồn</h3>
+                            <div id="movementsMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="movementsClose">Đóng</button>
+                        </div>
+                    </div>
 
-      document.getElementById("tenSanPham").value = "";
-      document.getElementById("giaSanPham").value = "";
-      document.getElementById("loaiSanPham").value = "";
-    });
-  }
-  hienThiSanPham();
+                    <div class="section-toolbar">
+                        <div class="field">
+                            <label for="mvFrom">Từ ngày</label>
+                            <input type="date" id="mvFrom">
+                        </div>
+                        <div class="field">
+                            <label for="mvTo">Đến ngày</label>
+                            <input type="date" id="mvTo">
+                        </div>
+                        <div class="field">
+                            <button class="btn primary" id="mvApply">Xem</button>
+                        </div>
+                    </div>
 
-  // =========================
-  // 🔹 PHẦN QUẢN LÝ ĐƠN HÀNG
-  // =========================
-  const danhSachDonHang = [
-    { ma: "DH001", khach: "Nguyễn Văn A", tong: 50000, trangThai: "new" },
-    { ma: "DH002", khach: "Trần Thị B", tong: 120000, trangThai: "processed" },
-    { ma: "DH003", khach: "Phạm Văn C", tong: 75000, trangThai: "delivered" },
-  ];
+                    <table id="movementsTable">
+                        <thead>
+                            <tr>
+                                <th class="nowrap w-120">Ngày</th>
+                                <th>Loại</th>
+                                <th class="right w-120">SL</th>
+                                <th class="right w-120">Tồn sau</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+        </div> <!-- main-content -->
+    </div> <!-- adminPanel -->
 
-  function hienThiDonHang() {
-    const tbody = document.querySelector("#ordersTable tbody");
-    const loc = document.getElementById("orderFilterStatus");
-    if (!tbody || !loc) return;
-
-    tbody.innerHTML = "";
-
-    const donLoc = loc.value === "all"
-      ? danhSachDonHang
-      : danhSachDonHang.filter(dh => dh.trangThai === loc.value);
-
-    donLoc.forEach((dh, i) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${dh.ma}</td>
-        <td>${dh.khach}</td>
-        <td class="right">${dh.tong.toLocaleString()} đ</td>
-        <td>
-          <select class="chonTrangThai" data-index="${i}">
-            <option value="new" ${dh.trangThai === "new" ? "selected" : ""}>Mới đặt</option>
-            <option value="processed" ${dh.trangThai === "processed" ? "selected" : ""}>Đã xử lý</option>
-            <option value="delivered" ${dh.trangThai === "delivered" ? "selected" : ""}>Đã giao</option>
-            <option value="canceled" ${dh.trangThai === "canceled" ? "selected" : ""}>Hủy</option>
-          </select>
-        </td>
-        <td><button class="btn-xoa-don" data-index="${i}">Xóa</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    document.querySelectorAll(".chonTrangThai").forEach(select => {
-      select.addEventListener("change", (e) => {
-        const i = e.target.dataset.index;
-        danhSachDonHang[i].trangThai = e.target.value;
-        alert(`Đã cập nhật trạng thái cho đơn ${danhSachDonHang[i].ma}`);
-      });
-    });
-
-    document.querySelectorAll(".btn-xoa-don").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const i = e.target.dataset.index;
-        if (confirm(`Bạn có muốn xóa đơn ${danhSachDonHang[i].ma} không?`)) {
-          danhSachDonHang.splice(i, 1);
-          hienThiDonHang();
-        }
-      });
-    });
-  }
-
-  const trangThaiLoc = document.getElementById("orderFilterStatus");
-  if (trangThaiLoc) trangThaiLoc.addEventListener("change", hienThiDonHang);
-
-  hienThiDonHang();
-});
+    <!-- JS -->
+    <script type="module" src="./js/admin.js"></script>
+    <script type="module" src="./js/userManagement.js"></script>
+    <script src="./js/productData.js"></script>
+    <script type="module" src="./js/admin-orders.js"></script>
+    <script type="module" src="./js/admin-inventory.js"></script>
+</body>
+</html>
