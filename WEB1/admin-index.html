@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giày Nam Cao Cấp - ShoeStore</title>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -36,8 +36,6 @@
                         <li><a href="#index">Trang chủ</a></li>
                         <li><a href="#user">Quản lý tài khoản</a></li>
                         <li><a href="#products">Quản lý sản phẩm</a></li>
-                        <li><a href="#price">Quản lý Giá bán</a></li>
-                        <li><a href="#import">Quản lý Nhập sản phẩm</a></li>
                         <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
                         <li><a href="#inventory">Quản lý tồn kho</a></li>
                     </ul>
@@ -82,148 +80,6 @@
 
             <section class="products" id="products">
                 <h2>Quản lý sản phẩm</h2>
-            </section>
-
-            <!-- Quản lý Giá bán -->
-            <section class="price" id="price">
-                <h2>Quản lý giá bán sản phẩm</h2>
-
-                <!-- Quản lý tỉ lệ lợi nhuận theo loại sản phẩm -->
-                <div class="section">
-                    <h3>Quản lý tỉ lệ lợi nhuận theo loại sản phẩm</h3>
-                    
-                    <div class="form-group">
-                        <label>Thêm loại sản phẩm mới:</label>
-                        <input type="text" id="tenLoaiMoi" placeholder="Tên loại sản phẩm">
-                        <input type="number" id="loiNhuanLoaiMoi" placeholder="Tỉ lệ lợi nhuận %" step="0.1">
-                        <button onclick="themLoaiSanPham()">Thêm loại</button>
-                    </div>
-
-                    <table id="bangLoaiSanPham">
-                        <thead>
-                            <tr>
-                                <th>Mã loại</th>
-                                <th>Tên loại</th>
-                                <th>Tỉ lệ lợi nhuận (%)</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-
-                <!-- Quản lý sản phẩm -->
-                <div class="section">
-                    <h3>Quản lý sản phẩm</h3>
-                    
-                    <div class="form-group">
-                        <label>Thêm sản phẩm mới:</label>
-                        <select id="chonLoaiSp"></select>
-                        <input type="text" id="tenSpMoi" placeholder="Tên sản phẩm">
-                        <input type="number" id="giaVonMoi" placeholder="Giá vốn" step="1000">
-                        <input type="number" id="loiNhuanSpMoi" placeholder="Tỉ lệ lợi nhuận %" step="0.1">
-                        <button onclick="themSanPham()">Thêm sản phẩm</button>
-                    </div>
-
-                    <table id="bangSanPham">
-                        <thead>
-                            <tr>
-                                <th>Mã SP</th>
-                                <th>Loại SP</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Giá vốn</th>
-                                <th>Lợi nhuận (%)</th>
-                                <th>Giá bán</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-
-                <!-- Tra cứu sản phẩm -->
-                <div class="section">
-                    <h3>Tra cứu sản phẩm</h3>
-                    
-                    <div class="search-group">
-                        <input type="text" id="timKiemSp" placeholder="Tìm theo tên sản phẩm hoặc mã SP...">
-                        <select id="locTheoLoai">
-                            <option value="">Tất cả loại</option>
-                        </select>
-                        <button onclick="timKiemSanPham()">Tìm kiếm</button>
-                    </div>
-
-                    <table id="bangTraCuu">
-                        <thead>
-                            <tr>
-                                <th>Mã SP</th>
-                                <th>Loại SP</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Giá vốn</th>
-                                <th>Lợi nhuận (%)</th>
-                                <th>Giá bán</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Quản lý Nhập sản phẩm -->
-            <section class="import" id="import">
-                <h2>Quản lý Nhập Sản phẩm</h2>
-
-                <div class="form-group">
-                    <h3>➕ Thêm/Sửa Phiếu Nhập</h3>
-                    <div id="nhap-form">
-                        <input type="hidden" id="nhapId">
-                        <label for="ngayNhap">Ngày Nhập:</label>
-                        <input type="date" id="ngayNhap" required>
-
-                        <br>
-                        <h4>Chi tiết Sản phẩm</h4>
-                        <div id="product-list">
-                            <div class="product-item">
-                                <select class="productId" required onchange="updateProductDetails(this)">
-                                    <option value="">-- Chọn Sản phẩm --</option>
-                                </select>
-                                <input type="number" class="giaNhap" placeholder="Giá nhập" min="0" required>
-                                <input type="number" class="soLuong" placeholder="Số lượng" min="1" required>
-                                <button type="button" class="btn-danger" onclick="removeProductItem(this)">Xóa</button>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-info" onclick="addProductItem()">Thêm Sản phẩm khác</button>
-                        <br><br>
-                        <button type="button" class="btn-primary" onclick="saveNhap()">Lưu Phiếu Nhập (Nháp)</button>
-                        <button type="button" class="btn-success" onclick="completeNhap()">Hoàn Thành Phiếu Nhập</button>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="form-group">
-                    <h3>📋 Danh sách Phiếu Nhập</h3>
-                    <label for="searchQuery">Tìm kiếm theo Ngày/ID:</label>
-                    <input type="text" id="searchQuery" placeholder="VD: 2023-01-01 hoặc PN001" onkeyup="displayNhapList()">
-                    <select id="filterStatus" onchange="displayNhapList()">
-                        <option value="all">Tất cả</option>
-                        <option value="Draft">Nháp</option>
-                        <option value="Completed">Hoàn thành</option>
-                    </select>
-
-                    <table id="nhap-table">
-                        <thead>
-                            <tr>
-                                <th>Mã PN</th>
-                                <th>Ngày Nhập</th>
-                                <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
             </section>
 
             <section class="orders" id="orders">
@@ -366,18 +222,17 @@
 
             </section>
 
+
         </div>
     </div>
 
+
 </body>
 
-<script type="module" src="admin.js"></script>
+<script type="module" src="./js/admin.js"></script>
 <script type="module" src="./js/userManagement.js"></script>
 <script src="./js/productData.js"></script>
 <script type="module" src="./js/admin-orders.js"></script>
 <script type="module" src="./js/admin-inventory.js"></script>
-<!-- Thêm các file JavaScript mới -->
-<script src="admin-price.js"></script>
-<script src="quanlysanpham.js"></script>
 
 </html>
