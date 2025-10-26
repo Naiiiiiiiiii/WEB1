@@ -79,12 +79,144 @@
                 </div>
             </section>
 
+            <!-- Admin 4: Quản lý sản phẩm -->
             <section class="products" id="products">
                 <h2>Quản lý sản phẩm</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="productSearch">Tìm theo tên</label>
+                        <input type="text" id="productSearch" placeholder="Nhập tên sản phẩm...">
+                    </div>
+                    <div class="field">
+                        <label for="productFilterCategory">Lọc theo danh mục</label>
+                        <select id="productFilterCategory">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="productFilterStatus">Trạng thái</label>
+                        <select id="productFilterStatus">
+                            <option value="all">Tất cả</option>
+                            <option value="visible">Đang hiển thị</option>
+                            <option value="hidden">Đang ẩn</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Thêm / Sửa sản phẩm</h3>
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="productCode">Mã sản phẩm</label>
+                                <input type="text" id="productCode" placeholder="VD: P001" required>
+                            </div>
+                            <div class="field">
+                                <label for="productCategory">Danh mục</label>
+                                <select id="productCategory" required></select>
+                            </div>
+                            <div class="field">
+                                <label for="productName">Tên sản phẩm</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="field">
+                                <label for="productImage">Hình ảnh (URL)</label>
+                                <input type="url" id="productImage" placeholder="./img/xxx.jpg hoặc https://...">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="productDesc">Mô tả</label>
+                            <textarea id="productDesc" rows="3" placeholder="Mô tả chi tiết..."></textarea>
+                        </div>
+                        <div class="field">
+                            <label>
+                                <input type="checkbox" id="productHidden"> Ẩn sản phẩm
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn primary" id="saveProductBtn">Lưu</button>
+                            <button type="button" class="btn" id="resetProductFormBtn">Làm mới</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Danh mục</th>
+                            <th>Hình</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody"></tbody>
+                </table>
             </section>
 
+            <!-- Admin 3: Quản lý loại (danh mục) sản phẩm -->
             <section class="products-category" id="products-category">
                 <h2>Quản lý danh mục sản phẩm</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="categorySearch">Tìm theo tên</label>
+                        <input type="text" id="categorySearch" placeholder="Nhập tên danh mục...">
+                    </div>
+                    <div class="field">
+                        <label for="categoryStatusFilter">Trạng thái</label>
+                        <select id="categoryStatusFilter">
+                            <option value="all">Tất cả</option>
+                            <option value="visible">Đang hiển thị</option>
+                            <option value="hidden">Đang ẩn</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Thêm / Sửa danh mục</h3>
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId">
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="categoryCode">Mã danh mục</label>
+                                <input type="text" id="categoryCode" placeholder="VD: SPT" required>
+                            </div>
+                            <div class="field">
+                                <label for="categoryName">Tên danh mục</label>
+                                <input type="text" id="categoryName" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="categoryDesc">Mô tả</label>
+                            <textarea id="categoryDesc" rows="2" placeholder="Mô tả ngắn..."></textarea>
+                        </div>
+                        <div class="field">
+                            <label>
+                                <input type="checkbox" id="categoryHidden"> Ẩn danh mục
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn primary" id="saveCategoryBtn">Lưu</button>
+                            <button type="button" class="btn" id="resetCategoryFormBtn">Làm mới</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table id="categoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTableBody"></tbody>
+                </table>
             </section>
 
             <section class="orders" id="orders">
@@ -239,5 +371,7 @@
 <script src="./js/productData.js"></script>
 <script type="module" src="./js/admin-orders.js"></script>
 <script type="module" src="./js/admin-inventory.js"></script>
+<script src="./js/admin-categories.js"></script>
+<script src="./js/admin-products.js"></script>
 
 </html>

@@ -250,7 +250,6 @@ body {
   background: #fff;
 }
 
-/* Table basic */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -267,7 +266,6 @@ td {
   vertical-align: top;
 }
 
-/* Badges for order status */
 .badge {
   padding: 4px 8px;
   border-radius: 999px;
@@ -291,7 +289,6 @@ td {
   color: #c62828;
 }
 
-/* Buttons / controls */
 .actions {
   display: flex;
   gap: 8px;
@@ -317,7 +314,6 @@ td {
   opacity: 0.95;
 }
 
-/* Utility classes */
 .muted {
   color: #666;
   font-size: 12px;
@@ -340,7 +336,6 @@ td {
   width: 160px;
 }
 
-/* Pagination */
 .pagination {
   margin-top: 12px;
   display: flex;
@@ -360,7 +355,6 @@ td {
   border-color: #1976d2;
 }
 
-/* Panels and grids */
 .panel {
   border: 1px solid #eee;
   border-radius: 8px;
@@ -374,12 +368,10 @@ td {
   gap: 12px;
 }
 
-/* Right aligned helpers */
 .right {
   text-align: right;
 }
 
-/* Small responsive tweak: stack toolbar on narrow screens */
 @media (max-width: 900px) {
   .section-toolbar {
     flex-direction: column;
@@ -391,4 +383,12 @@ td {
   .nowrap {
     white-space: normal;
   }
+}
+
+#productsTable td.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
 }
