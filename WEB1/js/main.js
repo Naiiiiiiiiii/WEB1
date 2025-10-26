@@ -179,10 +179,6 @@ function loadCartItems() {
         return;
     }
 
-    if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align: center; padding: 20px;">Giỏ hàng của bạn đang trống.</p>';
-        return;
-    }
 
     container.innerHTML = cart.map((item, index) => `
         <div class="cart-item" data-index="${index}">
@@ -274,69 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Đặt hàng
-    if (placeOrderBtn) {
-        placeOrderBtn.addEventListener('click', () => {
-            const cart = JSON.parse(localStorage.getItem('cart_shoestore') || '[]');
-            
-            if (cart.length === 0) {
-                alert('⚠️ Giỏ hàng trống!');
-                return;
-            }
-            
-            // Kiểm tra địa chỉ
-            const addressInput = document.getElementById('shipping-address');
-            if (!addressInput || !addressInput.value.trim()) {
-                alert('⚠️ Vui lòng nhập địa chỉ giao hàng!');
-                addressInput?.focus();
-                return;
-            }
-            
-            // Kiểm tra phương thức thanh toán
-            const paymentMethod = document.querySelector('input[name="payment"]:checked');
-            if (!paymentMethod) {
-                alert('⚠️ Vui lòng chọn phương thức thanh toán!');
-                return;
-            }
-            
-            // Tạo đơn hàng
-            const order = {
-                id: 'ORD' + Date.now(),
-                items: cart,
-                address: addressInput.value,
-                payment: paymentMethod.value,
-                total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
-                createdAt: new Date().toISOString()
-            };
-            
-            console.log('📦 Tạo đơn hàng:', order);
-            
-            // Lưu lịch sử đơn hàng (tùy chọn)
-            const orderHistory = JSON.parse(localStorage.getItem('order_history') || '[]');
-            orderHistory.push(order);
-            localStorage.setItem('order_history', JSON.stringify(orderHistory));
-            
-            // ✅ XÓA GIỎ HÀNG CŨ - QUAN TRỌNG
-            localStorage.removeItem('cart_shoestore');
-            console.log('🧹 Đã xóa giỏ hàng cũ khỏi localStorage');
-            
-            // Cập nhật UI
-            loadCartItems();
-            capNhatSoLuongGioHang();
-            
-            // Reset form
-            addressInput.value = '';
-            
-            // Thông báo thành công
-            alert(`✅ Đặt hàng thành công!\n\nMã đơn hàng: ${order.id}\nTổng tiền: ${formatPrice(order.total)}`);
-            
-            // Đóng modal
-            const cartModal = document.getElementById('cartModal');
-            if (cartModal) {
-                cartModal.style.display = 'none';
-            }
-        });
-    }
+     console.log('✅ main.js đã load - xử lý đặt hàng bởi order-system.js');
 });
 
 // Thêm CSS đơn giản cho user section và nút đăng xuất

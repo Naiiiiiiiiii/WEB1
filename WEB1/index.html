@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/search-overlay.css">
     <link rel="stylesheet" href="./css/dangnhap.css">
     <link rel="stylesheet" href="./css/cart.css">
+    <link rel="stylesheet" href="./css/order-modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -39,6 +40,9 @@
                 <a href="#cart">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
+                </a>
+                <a href="#" onclick="openOrderHistory(); return false;" title="Đơn hàng của tôi">
+                    <i class="fas fa-receipt"></i>
                 </a>
                 <a href="#user" id="user-login-link"><i class="fas fa-user"></i></a>
             </div>
@@ -73,6 +77,94 @@
             <button id="place-order">Đặt hàng</button>
         </div>
     </div>
+
+     <!-- Modal xem lại đơn hàng -->
+<div id="orderSuccessModal" class="cart-modal" style="display: none;">
+    <div class="cart-modal-content">
+        <span class="close" onclick="closeOrderSuccessModal()">&times;</span>
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 4rem; color: #28a745;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 style="color: #28a745;">Đặt hàng thành công!</h2>
+            <p style="color: #666;">Cảm ơn bạn đã mua hàng</p>
+        </div>
+
+        <!-- Thông tin đơn hàng -->
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <p style="color: #666; font-size: 0.9rem;">📦 Mã đơn hàng</p>
+                    <p style="font-weight: bold;" id="reviewOrderId"></p>
+                </div>
+                <div>
+                    <p style="color: #666; font-size: 0.9rem;">⏰ Thời gian</p>
+                    <p style="font-weight: bold;" id="reviewOrderTime"></p>
+                </div>
+                <div>
+                    <p style="color: #666; font-size: 0.9rem;">📍 Địa chỉ</p>
+                    <p style="font-weight: bold;" id="reviewOrderAddress"></p>
+                </div>
+                <div>
+                    <p style="color: #666; font-size: 0.9rem;">💳 Thanh toán</p>
+                    <p style="font-weight: bold;" id="reviewOrderPayment"></p>
+                </div>
+            </div>
+        </div>
+
+        <h3>🛍️ Sản phẩm đã đặt</h3>
+        <div id="order-review-items" style="max-height: 300px; overflow-y: auto;"></div>
+
+        <!-- Tổng tiền -->
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #eee;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <span style="font-size: 1.2rem; font-weight: bold;">Tổng cộng:</span>
+                <span style="font-size: 1.5rem; font-weight: bold; color: #ee4d2d;" id="reviewOrderTotal"></span>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button onclick="openOrderHistory()" style="flex: 1; padding: 12px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    📜 Xem lịch sử đơn hàng
+                </button>
+                <button onclick="continueShopping()" style="flex: 1; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    🛒 Tiếp tục mua sắm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ THÊM VÀO ĐÂY - Modal lịch sử đơn hàng -->
+<div id="orderHistoryModal" class="cart-modal" style="display: none;">
+    <div class="cart-modal-content" style="max-width: 900px;">
+        <span class="close" onclick="closeOrderHistory()">&times;</span>
+        
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">
+            📜 Lịch sử đơn hàng
+        </h2>
+
+        <!-- Thống kê -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2rem; font-weight: bold;" id="totalOrders">0</div>
+                <div style="font-size: 0.9rem;">Tổng đơn hàng</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2rem; font-weight: bold;" id="totalSpent">0₫</div>
+                <div style="font-size: 0.9rem;">Tổng chi tiêu</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2rem; font-weight: bold;" id="totalItems">0</div>
+                <div style="font-size: 0.9rem;">Sản phẩm đã mua</div>
+            </div>
+        </div>
+
+        <!-- Danh sách đơn hàng -->
+        <div id="orderHistoryList" style="max-height: 500px; overflow-y: auto;"></div>
+    </div>
+</div>
+
     <!--Main cua trang index-->
     <main>
         <!-- Hero Section -->
@@ -420,6 +512,7 @@
 
     <!-- 7. Login Modal (Sử dụng type="module") -->
     <script type="module" src="./js/login-modal.js"></script>
+    <script src="./js/order-system.js"></script>
     <script src="./js/cart-display.js"></script>
 
 
