@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="./css/cart.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -20,7 +22,7 @@
                 <i class="fas fa-shoe-prints"></i>
                 ShoeStore
             </div>
-            
+
             <nav class="nav-menu">
                 <ul>
                     <li><a href="#home">Trang chủ</a></li>
@@ -30,7 +32,7 @@
                     <li><a href="#contact">Liên hệ</a></li>
                 </ul>
             </nav>
-            
+
             <div class="nav-icons">
                 <a href="#search" id="search-link"><i class="fas fa-search"></i></a>
                 <a href="#wishlist"><i class="fas fa-heart"></i></a>
@@ -43,15 +45,15 @@
         </div>
     </header>
 
-     <div class="cart-items"></div>
-        <!-- Modal giỏ hàng -->
+    <div class="cart-items"></div>
+    <!-- Modal giỏ hàng -->
     <div id="cartModal" class="cart-modal">
         <div class="cart-modal-content">
             <span class="close">&times;</span>
             <h2>Giỏ hàng của bạn</h2>
 
             <!-- Các sản phẩm trong giỏ hàng sẽ hiển thị ở đây -->
-             <div id="cart-container" class="cart-list"></div>
+            <div id="cart-container" class="cart-list"></div>
 
             <div class="cart-options">
                 <h3>Địa chỉ giao hàng</h3>
@@ -75,41 +77,44 @@
     <main>
         <!-- Hero Section -->
         <section id="home" class="hero">
-        <div class="hero-content">
-            <div>
-                <h1>Giày Nam Cao Cấp</h1>
-                <p>Khám phá bộ sưu tập giày nam chính hãng với thiết kế hiện đại và chất lượng vượt trội</p>
-                <a href="#products" class="cta-button">Mua sắm ngay</a>
-            </div>
-            
-            <div class="slider-container">
-                <div class="slides-wrapper">
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop" alt="Giày thể thao CA Match">
-                    </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop" alt="Giày thể thao Suede Classic Unisex">
-                    </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&h=600&fit=crop" alt="GIÀY DA CÔNG SỞ GERMANO BELLESI">
-                    </div>
+            <div class="hero-content">
+                <div>
+                    <h1>Giày Nam Cao Cấp</h1>
+                    <p>Khám phá bộ sưu tập giày nam chính hãng với thiết kế hiện đại và chất lượng vượt trội</p>
+                    <a href="#products" class="cta-button">Mua sắm ngay</a>
                 </div>
 
-                <!-- NÚT PREV/NEXT -->
-                <div class="slider-controls">
-                    <button class="slider-btn prev-btn">‹</button>
-                    <button class="slider-btn next-btn">›</button>
-                </div>
+                <div class="slider-container">
+                    <div class="slides-wrapper">
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop"
+                                alt="Giày thể thao CA Match">
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop"
+                                alt="Giày thể thao Suede Classic Unisex">
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&h=600&fit=crop"
+                                alt="GIÀY DA CÔNG SỞ GERMANO BELLESI">
+                        </div>
+                    </div>
 
-                <!-- DOTS INDICATORS -->
-                <div class="slider-dots">
-                    <span class="dot active" data-slide="0"></span>
-                    <span class="dot" data-slide="1"></span>
-                    <span class="dot" data-slide="2"></span>
+                    <!-- NÚT PREV/NEXT -->
+                    <div class="slider-controls">
+                        <button class="slider-btn prev-btn">‹</button>
+                        <button class="slider-btn next-btn">›</button>
+                    </div>
+
+                    <!-- DOTS INDICATORS -->
+                    <div class="slider-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
         <!-- Featured Categories -->
         <section class="categories">
@@ -152,7 +157,7 @@
         <section id="products" class="products">
             <div class="container">
                 <h2 class="section-title">Sản phẩm nổi bật</h2>
-                
+
                 <!-- Filter -->
                 <div class="filter-bar">
                     <div class="filter-group">
@@ -177,15 +182,15 @@
 
                 <!-- Modal Xem nhanh -->
                 <div id="quick-view-modal" class="modal">
-                  <div class="modal-content">
-                    <span class="close-btn">&times;</span>
-                    <img id="modal-img" src="" alt="Ảnh sản phẩm">
-                    <h3 id="modal-name"></h3>
-                    <div id="modal-rating"></div>
-                    <div id="modal-price"></div>
-                    <button class="add-to-cart" id="modal-add-to-cart">Thêm vào giỏ</button>
-                    <a href="./product-detail.html" id="modal-view-detail" class="view-detail-btn">Xem chi tiết</a>
-                  </div>
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                        <img id="modal-img" src="" alt="Ảnh sản phẩm">
+                        <h3 id="modal-name"></h3>
+                        <div id="modal-rating"></div>
+                        <div id="modal-price"></div>
+                        <button class="add-to-cart" id="modal-add-to-cart">Thêm vào giỏ</button>
+                        <a href="./product-detail.html" id="modal-view-detail" class="view-detail-btn">Xem chi tiết</a>
+                    </div>
                 </div>
 
                 <div class="load-more">
@@ -241,7 +246,7 @@
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Sản phẩm</h3>
                     <ul>
@@ -251,7 +256,7 @@
                         <li><a href="#">Phụ kiện</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Hỗ trợ</h3>
                     <ul>
@@ -261,7 +266,7 @@
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Liên hệ</h3>
                     <ul>
@@ -271,7 +276,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 ShoeStore. Tất cả quyền được bảo lưu.</p>
             </div>
@@ -279,37 +284,37 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        const cartContainer = document.getElementById("cart-container");
-        const placeOrderBtn = document.getElementById("place-order");
-        const cartModal = document.getElementById("cartModal");
-        const closeModal = document.querySelector(".cart-modal .close");
-        const cartLink = document.querySelector('a[href="#cart"]');
+        document.addEventListener("DOMContentLoaded", function () {
+            const cartContainer = document.getElementById("cart-container");
+            const placeOrderBtn = document.getElementById("place-order");
+            const cartModal = document.getElementById("cartModal");
+            const closeModal = document.querySelector(".cart-modal .close");
+            const cartLink = document.querySelector('a[href="#cart"]');
 
-        // Hàm cập nhật số lượng giỏ hàng trên icon
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
-            const cartCountElem = document.querySelector(".cart-count");
-            cartCountElem.textContent = cart.length;
-        }
-
-        // Gọi lần đầu để hiển thị số lượng khi load trang
-        updateCartCount();
-
-        // Hàm render sản phẩm trong giỏ
-        function renderCartItems() {
-            const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
-            cartContainer.innerHTML = "";
-
-            if(cart.length === 0){
-                cartContainer.innerHTML = "<p>Chưa có sản phẩm nào trong giỏ hàng.</p>";
-                return;
+            // Hàm cập nhật số lượng giỏ hàng trên icon
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
+                const cartCountElem = document.querySelector(".cart-count");
+                cartCountElem.textContent = cart.length;
             }
 
-            cart.forEach(item => {
-                const div = document.createElement("div");
-                div.classList.add("cart-item");
-                div.innerHTML = `
+            // Gọi lần đầu để hiển thị số lượng khi load trang
+            updateCartCount();
+
+            // Hàm render sản phẩm trong giỏ
+            function renderCartItems() {
+                const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
+                cartContainer.innerHTML = "";
+
+                if (cart.length === 0) {
+                    cartContainer.innerHTML = "<p>Chưa có sản phẩm nào trong giỏ hàng.</p>";
+                    return;
+                }
+
+                cart.forEach(item => {
+                    const div = document.createElement("div");
+                    div.classList.add("cart-item");
+                    div.innerHTML = `
                     <img src="${item.img}" alt="${item.name}">
                     <div>
                         <p><strong>${item.name}</strong></p>
@@ -321,98 +326,103 @@
                         </div>
                     </div>
                 `;
-                cartContainer.appendChild(div);
-            });
-             // Cập nhật số lượng giỏ hàng trên icon mỗi lần render
-            updateCartCount();
-        }
-
-        // Nút + / -
-        cartContainer.addEventListener("click", function(e){
-            if(e.target.classList.contains("qty-btn")) {
-                const id = e.target.dataset.id;
-                const action = e.target.dataset.action;
-                let cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
-
-                cart = cart.map(item => {
-                    if(item.id == id) {
-                        if(action === "increase") item.qty++;
-                        if(action === "decrease" && item.qty > 1) item.qty--;
-                    }
-                    return item;
+                    cartContainer.appendChild(div);
                 });
-
-                localStorage.setItem("cart_shoestore", JSON.stringify(cart));
-                renderCartItems();
+                // Cập nhật số lượng giỏ hàng trên icon mỗi lần render
+                updateCartCount();
             }
-        });
 
-        // Mở modal
-        cartLink.addEventListener("click", function(e) {
-            e.preventDefault();
-            cartModal.style.display = "block";
-            renderCartItems(); // ✅ Hiển thị sản phẩm
-        });
+            // Nút + / -
+            cartContainer.addEventListener("click", function (e) {
+                if (e.target.classList.contains("qty-btn")) {
+                    const id = e.target.dataset.id;
+                    const action = e.target.dataset.action;
+                    let cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
 
-        // Đóng modal
-        closeModal.addEventListener("click", function() {
-            cartModal.style.display = "none";
-        });
+                    cart = cart.map(item => {
+                        if (item.id == id) {
+                            if (action === "increase") item.qty++;
+                            if (action === "decrease" && item.qty > 1) item.qty--;
+                        }
+                        return item;
+                    });
 
-        window.addEventListener("click", function(e) {
-            if (e.target === cartModal) {
+                    localStorage.setItem("cart_shoestore", JSON.stringify(cart));
+                    renderCartItems();
+                }
+            });
+
+            // Mở modal
+            cartLink.addEventListener("click", function (e) {
+                e.preventDefault();
+                cartModal.style.display = "block";
+                renderCartItems(); // ✅ Hiển thị sản phẩm
+            });
+
+            // Đóng modal
+            closeModal.addEventListener("click", function () {
                 cartModal.style.display = "none";
-            }
+            });
+
+            window.addEventListener("click", function (e) {
+                if (e.target === cartModal) {
+                    cartModal.style.display = "none";
+                }
+            });
+
+            // Đặt hàng
+            placeOrderBtn.addEventListener("click", function () {
+                const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
+
+                if (cart.length === 0) {
+                    alert("Giỏ hàng trống!");
+                    return;
+                }
+
+                alert("✅ Đơn hàng của bạn đã được ghi nhận!");
+
+                // Xóa giỏ hàng
+                localStorage.removeItem("cart_shoestore");
+
+                // Reset hiển thị
+                cartContainer.innerHTML = "<p>Chưa có sản phẩm nào trong giỏ hàng.</p>";
+                updateCartCount();
+                //alert("✅ Đơn hàng của bạn đã được ghi nhận!");
+                //localStorage.removeItem("cart_shoestore");
+                //renderCartItems();
+            });
         });
-
-        // Đặt hàng
-        placeOrderBtn.addEventListener("click", function() {
-             const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
-
-        if(cart.length === 0){
-            alert("Giỏ hàng trống!");
-            return;
-        }
-
-        alert("✅ Đơn hàng của bạn đã được ghi nhận!");
-
-        // Xóa giỏ hàng
-        localStorage.removeItem("cart_shoestore");
-
-        // Reset hiển thị
-        cartContainer.innerHTML = "<p>Chưa có sản phẩm nào trong giỏ hàng.</p>";
-        updateCartCount();
-            //alert("✅ Đơn hàng của bạn đã được ghi nhận!");
-            //localStorage.removeItem("cart_shoestore");
-            //renderCartItems();
-        });
-    });
 
     </script>
-    
-    
+
+
     <!-- SCRIPT FILES (Đã xác nhận đường dẫn chính xác) -->
     <!-- 1. Product class definition (Cần load trước) -->
     <script src="./js/Product.js"></script>
-    
+
     <!-- 2. Product data (Phụ thuộc vào Product.js) -->
     <script src="./js/productData.js"></script>
-    
+
+    <script src="./js/productData-override.js"></script>
+
+
     <!-- 3. Render products (Hiển thị sản phẩm ra grid) -->
     <script src="./js/renderProducts.js"></script>
-    
+
     <!-- 4. Quick view modal (Gắn sự kiện cho các nút 'Xem nhanh' sau khi render) -->
     <script src="./js/quickview.js"></script>
-    
+
     <!-- 5. Search overlay logic (Sử dụng hàm từ Product.js/productData.js) -->
     <script src="./js/search-overlay.js"></script>
 
     <!-- 6. Main script for general page logic -->
     <script src="./js/main.js"></script>
-    
+
     <!-- 7. Login Modal (Sử dụng type="module") -->
-    <script type="module" src="./js/login-modal.js"></script> 
-        <script src="./js/cart-display.js"></script>
+    <script type="module" src="./js/login-modal.js"></script>
+    <script src="./js/cart-display.js"></script>
+
 
 </body>
+
 </html>

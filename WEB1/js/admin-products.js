@@ -1,124 +1,101 @@
-// Admin 4: Quản lý sản phẩm
-// Lưu trữ: localStorage key 'admin_products'
-// Liên kết danh mục qua window.AdminCatalog (admin-categories.js)
+// Admin 4 đọc trực tiếp productData.js và cập nhật live UI
+// - Nguồn dữ liệu gốc: window.productDataList (từ productData.js)
+// - Khi sửa: cập nhật localStorage overrides + cập nhật ngay window.productDataList/window.products
+// - Các trang user sẽ tự đọc override qua productData-override.js sau khi reload
 
 (function () {
-  const PROD_KEY = "admin_products";
-  const CAT_KEY = "admin_categories"; // fallback nếu AdminCatalog chưa sẵn sàng
+  const OVERRIDE_KEY = "productData_overrides"; // bản ghi đè
+  const CAT_KEY = "admin_categories"; // danh mục quản trị (tùy chọn)
 
-  // Seed mẫu nếu trống
-  function seedIfEmpty() {
-    const list = getProducts();
-    if (list.length) return;
-    const cats = getCategories();
-    if (!cats.length) return;
-
-    // Tạo một vài sản phẩm mẫu map theo các danh mục sẵn có
-    const p = [];
-    const cSport = cats.find((c) => c.code === "SPT") || cats[0];
-    const cFormal = cats.find((c) => c.code === "SCS") || cats[0];
-    const cCasual = cats.find((c) => c.code === "SCA") || cats[0];
-
-    p.push(
-      newProd(
-        "P001",
-        "Giày thể thao CA Match",
-        cSport.id,
-        "./img/giaythethao_CAMatch.avif",
-        "Đế cao su bền bỉ, thoáng khí",
-        false
-      )
-    );
-    p.push(
-      newProd(
-        "P002",
-        "Suede Classic Unisex",
-        cSport.id,
-        "./img/Giày-thể-thao-Suede-Classic-Unisex.avif",
-        "Retro, da lộn cao cấp",
-        false
-      )
-    );
-    p.push(
-      newProd(
-        "P003",
-        "Giày công sở Germano Bellesi",
-        cFormal.id,
-        "./img/giaycongsoGERMANO.webp",
-        "Da thật, sản xuất thủ công",
-        false
-      )
-    );
-    p.push(
-      newProd(
-        "P004",
-        "MATURE Chelsea Boots",
-        cFormal.id,
-        "./img/bootsnam.webp",
-        "Thiết kế tối giản, lịch lãm",
-        false
-      )
-    );
-    p.push(
-      newProd(
-        "P005",
-        "Sneaker DYNAMIC – Vàng bò",
-        cCasual.id,
-        "./img/casual_Dynamic.webp",
-        "Trẻ trung, êm ái",
-        false
-      )
-    );
-    p.push(
-      newProd(
-        "P006",
-        "Warrior 2025",
-        cCasual.id,
-        "./img/casual_Warrior.png",
-        "Nhẹ, bền, giá hợp lý",
-        true
-      )
-    ); // ví dụ ẩn
-
-    saveProducts(p);
-  }
-
-  function newProd(code, name, categoryId, image, desc, hidden) {
-    return {
-      id: genId(),
-      code,
-      name,
-      categoryId,
-      image: image || "",
-      desc: desc || "",
-      hidden: !!hidden,
-      createdAt: Date.now(),
-    };
-  }
-
-  function genId() {
-    return "P" + Math.random().toString(36).slice(2, 9).toUpperCase();
-  }
-
-  function getProducts() {
+  function deepClone(obj) {
     try {
-      return JSON.parse(localStorage.getItem(PROD_KEY) || "[]");
+      return JSON.parse(JSON.stringify(obj));
     } catch {
-      return [];
+      return obj;
     }
   }
-  function saveProducts(list) {
-    localStorage.setItem(PROD_KEY, JSON.stringify(list));
+  function getBaseFromProductData() {
+    if (
+      typeof productDataList !== "undefined" &&
+      Array.isArray(productDataList)
+    )
+      return deepClone(productDataList);
+    return [];
+  }
+  function getOverride() {
+    try {
+      return JSON.parse(localStorage.getItem(OVERRIDE_KEY) || "null");
+    } catch {
+      return null;
+    }
+  }
+  function setOverride(list) {
+    localStorage.setItem(OVERRIDE_KEY, JSON.stringify(list));
     updateProductCount();
+  }
+  function getCurrentProducts() {
+    const override = getOverride();
+    if (Array.isArray(override)) return override;
+    return getBaseFromProductData();
+  }
+
+  function applyOverrideToGlobals() {
+    // Giống logic trong productData-override.js nhưng chạy ngay trên trang admin
+    if (
+      typeof window.productDataList === "undefined" ||
+      !Array.isArray(window.productDataList)
+    )
+      return;
+    const base = window.productDataList;
+    const ov = getOverride();
+    const merged = mergeById(base, ov);
+    window.productDataList = merged;
+    if (typeof window.Product !== "undefined") {
+      window.products = window.productDataList.map((d) => new Product(d));
+    }
+    const ev = new CustomEvent("productDataUpdated", {
+      detail: { source: "admin" },
+    });
+    window.dispatchEvent(ev);
+  }
+
+  function mergeById(baseList, overrideList) {
+    if (!Array.isArray(baseList)) return [];
+    const merged = deepClone(baseList);
+    const map = new Map(merged.map((x) => [String(x.id), x]));
+
+    if (Array.isArray(overrideList)) {
+      overrideList.forEach((ov) => {
+        const id = String(ov.id);
+        if (map.has(id)) {
+          const b = map.get(id);
+          b.name = ov.name ?? b.name;
+          b.category = ov.category ?? b.category;
+          b.img = ov.img ?? b.img;
+          b.description = ov.description ?? b.description;
+          b.hidden = ov.hidden ?? b.hidden;
+        } else {
+          merged.push({
+            id: ov.id,
+            name: ov.name || "",
+            category: ov.category || "",
+            price: null,
+            oldPrice: null,
+            img: ov.img || "",
+            rating: 0,
+            ratingCount: 0,
+            badge: null,
+            description: ov.description || "",
+            images: ov.img ? [ov.img] : [],
+            hidden: !!ov.hidden,
+          });
+        }
+      });
+    }
+    return merged;
   }
 
   function getCategories() {
-    if (
-      window.AdminCatalog &&
-      typeof window.AdminCatalog.getCategories === "function"
-    ) {
-      return window.AdminCatalog.getCategories();
-    }
     try {
       return JSON.parse(localStorage.getItem(CAT_KEY) || "[]");
     } catch {
@@ -128,17 +105,17 @@
 
   function updateProductCount() {
     const el = document.getElementById("countProducts");
-    if (el) el.textContent = `Số sản phẩm hiện có: ${getProducts().length}`;
+    if (el)
+      el.textContent = `Số sản phẩm hiện có: ${getCurrentProducts().length}`;
   }
 
-  // UI refs
   const els = {
     search: null,
     filterCat: null,
     filterStatus: null,
     tbody: null,
     form: null,
-    id: null,
+    idHidden: null,
     code: null,
     name: null,
     category: null,
@@ -146,6 +123,7 @@
     desc: null,
     hidden: null,
     resetBtn: null,
+    exportBtn: null,
   };
 
   function bindEls() {
@@ -155,7 +133,7 @@
     els.tbody = document.getElementById("productsTableBody");
 
     els.form = document.getElementById("productForm");
-    els.id = document.getElementById("productId");
+    els.idHidden = document.getElementById("productId");
     els.code = document.getElementById("productCode");
     els.name = document.getElementById("productName");
     els.category = document.getElementById("productCategory");
@@ -163,11 +141,11 @@
     els.desc = document.getElementById("productDesc");
     els.hidden = document.getElementById("productHidden");
     els.resetBtn = document.getElementById("resetProductFormBtn");
+    els.exportBtn = document.getElementById("exportProductDataBtn");
   }
 
   function populateCategorySelect() {
     const cats = getCategories();
-    // Bộ lọc
     if (els.filterCat) {
       const current = els.filterCat.value || "all";
       els.filterCat.innerHTML =
@@ -175,57 +153,73 @@
         cats
           .map(
             (c) =>
-              `<option value="${c.id}">${c.name}${
+              `<option value="${c.name}">${c.name}${
                 c.hidden ? " (ẩn)" : ""
               }</option>`
           )
           .join("");
       els.filterCat.value = current;
     }
-    // Select trong Form
     if (els.category) {
       const current = els.category.value || "";
       els.category.innerHTML = cats
-        .filter((c) => !c.hidden) // chỉ cho chọn danh mục đang hiển thị
-        .map((c) => `<option value="${c.id}">${c.name}</option>`)
+        .filter((c) => !c.hidden)
+        .map((c) => `<option value="${c.name}">${c.name}</option>`)
         .join("");
       if (current) els.category.value = current;
     }
   }
 
+  function categoriesFromProducts(products) {
+    return Array.from(
+      new Set((products || []).map((p) => p.category).filter(Boolean))
+    );
+  }
+
   function render() {
-    const list = getProducts();
+    let list = getCurrentProducts();
     const q = (els.search?.value || "").toLowerCase().trim();
-    const catId = els.filterCat?.value || "all";
+    const cat = els.filterCat?.value || "all";
     const st = els.filterStatus?.value || "all";
-    const cats = getCategories();
-    const catMap = new Map(cats.map((c) => [String(c.id), c]));
+
+    if (!getCategories().length && els.filterCat && els.category) {
+      const cats = categoriesFromProducts(list);
+      const currentFilter = els.filterCat.value || "all";
+      els.filterCat.innerHTML =
+        `<option value="all">Tất cả</option>` +
+        cats.map((c) => `<option value="${c}">${c}</option>`).join("");
+      els.filterCat.value = currentFilter;
+
+      const currentEdit = els.category.value || "";
+      els.category.innerHTML = cats
+        .map((c) => `<option value="${c}">${c}</option>`)
+        .join("");
+      if (currentEdit) els.category.value = currentEdit;
+    }
 
     const filtered = list.filter((p) => {
       const okSearch =
         !q ||
-        p.name.toLowerCase().includes(q) ||
-        p.code.toLowerCase().includes(q);
-      const okCat = catId === "all" || String(p.categoryId) === String(catId);
+        String(p.id).toLowerCase().includes(q) ||
+        (p.name || "").toLowerCase().includes(q);
+      const okCat = cat === "all" || String(p.category) === String(cat);
       const okStatus = st === "all" || (st === "hidden" ? p.hidden : !p.hidden);
       return okSearch && okCat && okStatus;
     });
 
     els.tbody.innerHTML = filtered
       .map((p) => {
-        const c = catMap.get(String(p.categoryId));
-        const catName = c ? c.name : "(Không xác định)";
         const statusHtml = p.hidden
           ? '<span class="low">Đang ẩn</span>'
           : '<span class="ok">Hiển thị</span>';
-        const imgHtml = p.image
-          ? `<img src="${p.image}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px">`
+        const imgHtml = p.img
+          ? `<img src="${p.img}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px">`
           : "";
         return `
         <tr data-id="${p.id}">
-          <td>${p.code}</td>
-          <td>${p.name}</td>
-          <td>${catName}</td>
+          <td>${p.id}</td>
+          <td>${p.name || ""}</td>
+          <td>${p.category || ""}</td>
           <td>${imgHtml}</td>
           <td>${statusHtml}</td>
           <td class="actions">
@@ -238,21 +232,22 @@
       })
       .join("");
 
-    // Bind actions
     els.tbody.querySelectorAll(".btn-edit").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
         const id = tr?.dataset.id;
-        const p = list.find((x) => x.id === id);
+        const listAll = getCurrentProducts();
+        const p = listAll.find((x) => String(x.id) === String(id));
         if (!p) return;
-        els.id.value = p.id;
-        els.code.value = p.code;
-        els.name.value = p.name;
-        els.category.value = p.categoryId;
-        els.image.value = p.image || "";
-        els.desc.value = p.desc || "";
+        els.idHidden.value = p.id;
+        els.code.value = p.id;
+        els.code.setAttribute("disabled", "disabled");
+        els.name.value = p.name || "";
+        els.category.value = p.category || "";
+        els.image.value = p.img || "";
+        els.desc.value = p.description || "";
         els.hidden.checked = !!p.hidden;
-        els.code.focus();
+        els.name.focus();
       });
     });
 
@@ -260,11 +255,12 @@
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
         const id = tr?.dataset.id;
-        const listAll = getProducts();
-        const idx = listAll.findIndex((x) => x.id === id);
+        const listAll = getCurrentProducts();
+        const idx = listAll.findIndex((x) => String(x.id) === String(id));
         if (idx === -1) return;
         listAll[idx].hidden = !listAll[idx].hidden;
-        saveProducts(listAll);
+        setOverride(listAll);
+        applyOverrideToGlobals(); // cập nhật ngay dữ liệu đang chạy
         render();
       });
     });
@@ -273,102 +269,139 @@
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
         const id = tr?.dataset.id;
-        if (!confirm("Xác nhận xóa sản phẩm?")) return;
-        const listAll = getProducts().filter((x) => x.id !== id);
-        saveProducts(listAll);
-        if (els.id.value === id) resetForm();
+        if (!confirm("Xác nhận xóa sản phẩm khỏi danh sách hiện hành?")) return;
+        const listAll = getCurrentProducts().filter(
+          (x) => String(x.id) !== String(id)
+        );
+        setOverride(listAll);
+        applyOverrideToGlobals();
+        if (els.idHidden.value && String(els.idHidden.value) === String(id))
+          resetForm();
         render();
       });
     });
   }
 
   function resetForm() {
-    els.id.value = "";
+    els.idHidden.value = "";
     els.code.value = "";
     els.name.value = "";
-    // fallback: chọn option đầu tiên nếu có
-    if (els.category && els.category.options.length) {
+    if (els.category && els.category.options.length)
       els.category.value = els.category.options[0].value;
-    }
+    else els.category.value = "";
     els.image.value = "";
     els.desc.value = "";
     els.hidden.checked = false;
+    els.code.removeAttribute("disabled");
   }
 
   function onSubmit(e) {
     e.preventDefault();
-    const id = (els.id.value || "").trim();
-    const code = (els.code.value || "").trim();
+    const oldId = (els.idHidden.value || "").trim();
+    const newId = (els.code.value || "").trim();
     const name = (els.name.value || "").trim();
-    const categoryId = els.category.value;
-    const image = (els.image.value || "").trim();
-    const desc = (els.desc.value || "").trim();
+    const category = (els.category.value || "").trim();
+    const img = (els.image.value || "").trim();
+    const description = (els.desc.value || "").trim();
     const hidden = !!els.hidden.checked;
 
-    if (!code || !name || !categoryId) {
-      alert("Vui lòng nhập mã, tên và chọn danh mục.");
+    if (!newId || !name) {
+      alert("Vui lòng nhập mã (id) và tên sản phẩm.");
       return;
     }
 
-    const list = getProducts();
-    if (id) {
-      const idx = list.findIndex((x) => x.id === id);
-      if (idx !== -1) {
-        list[idx] = {
-          ...list[idx],
-          code,
-          name,
-          categoryId,
-          image,
-          desc,
-          hidden,
-        };
-      }
-      saveProducts(list);
-    } else {
-      // tránh trùng mã
-      if (list.some((x) => x.code.toLowerCase() === code.toLowerCase())) {
-        alert("Mã sản phẩm đã tồn tại.");
+    const list = getCurrentProducts();
+
+    if (oldId) {
+      const idx = list.findIndex((x) => String(x.id) === String(oldId));
+      if (idx === -1) {
+        alert("Không tìm thấy sản phẩm để cập nhật.");
         return;
       }
-      list.push({
-        id: genId(),
-        code,
-        name,
-        categoryId,
-        image,
-        desc,
-        hidden,
-        createdAt: Date.now(),
-      });
-      saveProducts(list);
+      list[idx] = { ...list[idx], name, category, img, description, hidden };
+      setOverride(list);
+      applyOverrideToGlobals(); // cập nhật ngay vào productDataList & products
+    } else {
+      if (list.some((x) => String(x.id) === String(newId))) {
+        alert("Mã sản phẩm (id) đã tồn tại.");
+        return;
+      }
+      list.push({ id: newId, name, category, img, description, hidden });
+      setOverride(list);
+      applyOverrideToGlobals();
     }
+
     resetForm();
     render();
   }
 
+  // Export productData.js (tùy chọn)
+  function exportProductData() {
+    const base = getBaseFromProductData();
+    const current = getCurrentProducts();
+    const currMap = new Map(current.map((p) => [String(p.id), p]));
+    const merged = base.map((b) => {
+      const cur = currMap.get(String(b.id));
+      if (!cur) return b;
+      return {
+        ...b,
+        name: cur.name ?? b.name,
+        category: cur.category ?? b.category,
+        img: cur.img ?? b.img,
+        description: cur.description ?? b.description,
+        hidden: cur.hidden ?? b.hidden,
+      };
+    });
+    current.forEach((cur) => {
+      if (!base.some((b) => String(b.id) === String(cur.id))) {
+        merged.push({
+          id: cur.id,
+          name: cur.name || "",
+          category: cur.category || "",
+          price: null,
+          oldPrice: null,
+          img: cur.img || "",
+          rating: 0,
+          ratingCount: 0,
+          badge: null,
+          description: cur.description || "",
+          images: cur.img ? [cur.img] : [],
+          hidden: !!cur.hidden,
+        });
+      }
+    });
+
+    const header = `/**
+ * productData.js (exported)
+ * Generated at ${new Date().toISOString()}
+ */\n\n`;
+    const js = `${header}const productDataList = ${JSON.stringify(
+      merged,
+      null,
+      2
+    )};\n\nconst products = productDataList.map(data => new Product(data));\n`;
+    const blob = new Blob([js], {
+      type: "application/javascript;charset=utf-8",
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "productData.js";
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }
+
   function init() {
     bindEls();
-    populateCategorySelect(); // gọi trước seed để có select rỗng an toàn
-    seedIfEmpty(); // seed sản phẩm demo nếu trống
-    populateCategorySelect(); // gọi lại sau seed danh mục (nếu có)
+    populateCategorySelect();
 
     els.form?.addEventListener("submit", onSubmit);
     els.resetBtn?.addEventListener("click", resetForm);
     els.search?.addEventListener("input", render);
     els.filterCat?.addEventListener("change", render);
     els.filterStatus?.addEventListener("change", render);
-
-    // Lắng nghe thay đổi danh mục để cập nhật select + render bảng
-    if (
-      window.AdminCatalog &&
-      typeof window.AdminCatalog.onChange === "function"
-    ) {
-      window.AdminCatalog.onChange(() => {
-        populateCategorySelect();
-        render();
-      });
-    }
+    els.exportBtn?.addEventListener("click", exportProductData);
 
     render();
     updateProductCount();
