@@ -8,24 +8,32 @@ const __dirname = path.dirname(__filename);
 
 // Cấu hình
 const PORT = process.env.PORT || 4000;
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || ""; // để trống = không bắt buộc auth (DEV)
+
+// Đường dẫn thư mục WEB1 (nằm cạnh thư mục /server)
+const WEB1_DIR = path.resolve(__dirname, "../WEB1");
+
+// File dữ liệu
 const DATA_DIR = path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "products.json");
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || ""; // nếu rỗng: không bắt buộc xác thực (DEV mode)
 
-// App
 const app = express();
 app.use(express.json());
 
-// CORS đơn giản (DEV). Khi deploy, giới hạn origin cụ thể.
+// Cho phép CORS (DEV). Khi deploy, giới hạn origin cụ thể.
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // PROD: set origin cố định
+  res.header("Access-Control-Allow-Origin", "*"); // PROD: set origin frontend của bạn
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   if (req.method === "OPTIONS") return res.sendStatus(200);
   next();
 });
 
-// Helper đọc/ghi
+// Serve tĩnh giao diện WEB1 tại đường dẫn /WEB1
+console.log("[static] Serving /WEB1 from", WEB1_DIR);
+app.use("/WEB1", express.static(WEB1_DIR));
+
+// Helpers đọc/ghi
 function readProducts() {
   try {
     const txt = fs.readFileSync(DATA_FILE, "utf8");
@@ -39,12 +47,13 @@ function writeProducts(list) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2), "utf8");
 }
 
-// Endpoint
+// API: GET products
 app.get("/api/products", (req, res) => {
   const data = readProducts();
   return res.json(data);
 });
 
+// API: POST products (ghi toàn bộ mảng)
 app.post("/api/products", (req, res) => {
   if (ADMIN_TOKEN) {
     const header = req.headers.authorization || "";
@@ -53,10 +62,12 @@ app.post("/api/products", (req, res) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
   }
+
   const body = req.body;
   if (!Array.isArray(body)) {
     return res.status(400).json({ error: "Expected an array of products" });
   }
+
   try {
     writeProducts(body);
     return res.json({ ok: true });
@@ -66,9 +77,8 @@ app.post("/api/products", (req, res) => {
   }
 });
 
-// Serve static (tùy chọn): nếu muốn host luôn giao diện
-// app.use('/', express.static(path.join(__dirname, 'public')));
-
 app.listen(PORT, () => {
   console.log(`API listening on http://localhost:${PORT}`);
+  console.log(`Open UI: http://localhost:${PORT}/WEB1/index.html`);
+  console.log(`Open Admin: http://localhost:${PORT}/WEB1/admin-index.html`);
 });
