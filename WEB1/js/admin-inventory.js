@@ -1,7 +1,3 @@
-// Admin 8: Quản lý tồn kho (đọc/ghi products.json qua backend)
-// - Lưu NGAY sau "Sửa tồn" hoặc "Thêm nhập"
-// - Có BroadcastChannel để user tự reload
-
 import { AdminAPI } from "./admin-api.js";
 
 const ORDERS_KEY_INV = "orders";
@@ -137,7 +133,6 @@ const ORDERS_KEY_INV = "orders";
       })
       .join("");
 
-    // Lịch sử
     tbody.querySelectorAll(".btn-mv").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
@@ -146,7 +141,6 @@ const ORDERS_KEY_INV = "orders";
       });
     });
 
-    // Sửa tồn → lưu ngay
     tbody.querySelectorAll(".btn-edit-inv").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         const tr = e.target.closest("tr");
@@ -180,7 +174,6 @@ const ORDERS_KEY_INV = "orders";
       });
     });
 
-    // Thêm nhập → lưu ngay
     tbody.querySelectorAll(".btn-add-import").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         const tr = e.target.closest("tr");

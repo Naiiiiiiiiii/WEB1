@@ -1,8 +1,6 @@
-// Helper API cho Admin
 import { API_BASE } from "./api-config.js";
 
 export const AdminAPI = {
-  // Products
   async getProducts() {
     const res = await fetch(`${API_BASE}/api/products`, { cache: "no-store" });
     return await res.json();
@@ -20,7 +18,6 @@ export const AdminAPI = {
     return j;
   },
 
-  // Categories
   async getCategories() {
     const res = await fetch(`${API_BASE}/api/categories`, {
       cache: "no-store",

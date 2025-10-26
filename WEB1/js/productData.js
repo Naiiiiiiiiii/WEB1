@@ -55,7 +55,6 @@ const productDataList = [
       "./img/Giày-thể-thao-Suede-Classic-Unisex.avif",
     ],
 
-    // === Inventory fields ===
     costPrice: 1250000,
     initialStock: 30,
     lowStockThreshold: 6,
@@ -78,7 +77,6 @@ const productDataList = [
       "Giày da công sở Germano Bellesi được sản xuất thủ công tại Ý, sử dụng da thật cao cấp, mang lại sự sang trọng và đẳng cấp cho phái mạnh.",
     images: ["./img/giaycongsoGERMANO.webp", "./img/giaycongsoGERMANO.webp"],
 
-    // === Inventory fields ===
     costPrice: 8200000,
     initialStock: 8,
     lowStockThreshold: 3,
@@ -101,7 +99,6 @@ const productDataList = [
       "Chelsea Boots MATURE phiên bản 2025 với thiết kế tối giản, chất liệu da bền đẹp, dễ phối đồ, phù hợp cho phong cách lịch lãm và cá tính.",
     images: ["./img/bootsnam.webp", "./img/bootsnam.webp"],
 
-    // === Inventory fields ===
     costPrice: 980000,
     initialStock: 20,
     lowStockThreshold: 4,
@@ -121,7 +118,6 @@ const productDataList = [
       "Sneaker DYNAMIC phiên bản 2025 với màu vàng bò nổi bật, thiết kế trẻ trung, đế êm ái, mang lại sự thoải mái cho cả ngày dài.",
     images: ["./img/casual_Dynamic.webp", "./img/casual_Dynamic.webp"],
 
-    // === Inventory fields ===
     costPrice: 960000,
     initialStock: 28,
     lowStockThreshold: 6,
@@ -144,7 +140,6 @@ const productDataList = [
       "Giày Warrior 2025 với phong cách trẻ trung, giá cả hợp lý, chất liệu nhẹ và bền, phù hợp cho sinh viên và giới trẻ năng động.",
     images: ["./img/casual_Warrior.png", "./img/casual_Warrior.png"],
 
-    // === Inventory fields ===
     costPrice: 370000,
     initialStock: 40,
     lowStockThreshold: 8,
@@ -155,19 +150,4 @@ const productDataList = [
   },
 ];
 
-// Khởi tạo mảng products từ Product class
 const products = productDataList.map((data) => new Product(data));
-
-/**
- * Gợi ý (tùy chọn) nếu bạn cần đồng bộ với trang admin tồn kho dùng localStorage:
- * localStorage.setItem('products', JSON.stringify(productDataList.map(p => ({
- *   id: p.id,
- *   name: p.name,
- *   category: p.category,
- *   costPrice: p.costPrice,
- *   price: p.price,
- *   initialStock: p.initialStock,
- *   lowStockThreshold: p.lowStockThreshold,
- *   imports: p.imports
- * }))));
- */

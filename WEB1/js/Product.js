@@ -1,8 +1,3 @@
-/**
- * Product.js
- * Class định nghĩa cấu trúc và phương thức cho sản phẩm
- */
-
 class Product {
   constructor(data) {
     this.id = data.id;
@@ -16,7 +11,6 @@ class Product {
     this.badge = data.badge || null;
     this.description = data.description || "";
 
-    // NEW: giữ trạng thái ẩn/hiện và danh sách ảnh
     this.hidden = !!data.hidden;
     this.images = Array.isArray(data.images)
       ? data.images
@@ -25,29 +19,24 @@ class Product {
       : [];
   }
 
-  // Tính phần trăm giảm giá
   getDiscountPercent() {
     if (!this.oldPrice || this.oldPrice <= this.price) return 0;
     return Math.round(((this.oldPrice - this.price) / this.oldPrice) * 100);
   }
 
-  // Kiểm tra có đang giảm giá không
   isOnSale() {
     return this.oldPrice && this.oldPrice > this.price;
   }
 
-  // Format giá tiền
   getFormattedPrice() {
     return new Intl.NumberFormat("vi-VN").format(this.price) + "₫";
   }
 
-  // Format giá cũ
   getFormattedOldPrice() {
     if (!this.oldPrice) return "";
     return new Intl.NumberFormat("vi-VN").format(this.oldPrice) + "₫";
   }
 
-  // Lấy text badge
   getBadgeText() {
     if (!this.badge) return "";
     switch (this.badge) {
@@ -62,7 +51,6 @@ class Product {
     }
   }
 
-  // Render HTML cho rating stars
   renderStars() {
     const rating = Math.round(this.rating) || 0;
     let html = "";
@@ -74,7 +62,6 @@ class Product {
     return html;
   }
 
-  // Chuyển đổi thành object đơn giản
   toJSON() {
     return {
       id: this.id,
@@ -87,13 +74,11 @@ class Product {
       ratingCount: this.ratingCount,
       badge: this.badge,
       description: this.description,
-      // NEW: đưa hidden và images vào JSON
       hidden: this.hidden,
       images: this.images,
     };
   }
 
-  // Tạo instance từ object
   static fromJSON(data) {
     return new Product(data);
   }
