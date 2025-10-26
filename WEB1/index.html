@@ -462,27 +462,7 @@
                 }
             });
 
-            // Đặt hàng
-            placeOrderBtn.addEventListener("click", function () {
-                const cart = JSON.parse(localStorage.getItem("cart_shoestore") || "[]");
-
-                if (cart.length === 0) {
-                    alert("Giỏ hàng trống!");
-                    return;
-                }
-
-                alert("✅ Đơn hàng của bạn đã được ghi nhận!");
-
-                // Xóa giỏ hàng
-                localStorage.removeItem("cart_shoestore");
-
-                // Reset hiển thị
-                cartContainer.innerHTML = "<p>Chưa có sản phẩm nào trong giỏ hàng.</p>";
-                updateCartCount();
-                //alert("✅ Đơn hàng của bạn đã được ghi nhận!");
-                //localStorage.removeItem("cart_shoestore");
-                //renderCartItems();
-            });
+            
         });
 
     </script>
