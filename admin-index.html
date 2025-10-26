@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giày Nam Cao Cấp - ShoeStore</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div id="loginPage">
+        <form class="form_login" id="formDangNhap">
+            <h1>Đăng nhập</h1>
+            <label>Username</label>
+            <input type="text" id="username" placeholder="admin">
+
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Admin123">
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="adminPanel" style="display: none">
+        <div class="menu">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-shoe-prints"></i>
+                    ShoeStore
+                </div>
+
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="#index">Trang chủ</a></li>
+                        <li><a href="#user">Quản lý tài khoản</a></li>
+                        <li><a href="#products">Quản lý sản phẩm</a></li>
+                        <li><a href="#products-category">Quản lý danh mục sản phẩm</a></li>
+                        <li><a href="#orders">Quản lý đơn đặt hàng</a></li>
+                        <li><a href="#inventory">Quản lý tồn kho</a></li>
+                        <li><a href="#import" class="nav-link">Quản lý Nhập sản phẩm</a></li>
+                        <li><a href="#price" class="nav-link">Quản lý Giá bán</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <span>Chào, <b>ADMIN</b></span>
+                <a href="" class="logout">Đăng xuất</a>
+            </div>
+
+            <section class="index" id="index">
+                <div class="index-content">
+                    <div class="index-content1">
+                        <div class="index-content" id="countAccount">Số tài khoản hiện có:</div>
+                        <div class="index-content" id="countProducts">Số sản phẩm hiện có:</div>
+                    </div>
+                    <div class="index-content2">
+                        <div class="index-content" id="countOrders">Số đơn đặt hàng hiện có:</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="user" id="user">
+                <h2>Quản lý tài khoản người dùng</h2>
+                <div class="userTable-container">
+                    <table class="userTable" id="userTable">
+                        <thead>
+                            <tr>
+                                <th>Họ tên</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Email</th>
+                                <th>Quản lý</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Admin 4: Quản lý sản phẩm -->
+            <section class="products" id="products">
+                <h2>Quản lý sản phẩm</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="productSearch">Tìm theo tên</label>
+                        <input type="text" id="productSearch" placeholder="Nhập tên sản phẩm...">
+                    </div>
+                    <div class="field">
+                        <label for="productFilterCategory">Lọc theo danh mục</label>
+                        <select id="productFilterCategory">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="productFilterStatus">Trạng thái</label>
+                        <select id="productFilterStatus">
+                            <option value="all">Tất cả</option>
+                            <option value="visible">Đang hiển thị</option>
+                            <option value="hidden">Đang ẩn</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Thêm / Sửa sản phẩm</h3>
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="productCode">Mã sản phẩm</label>
+                                <input type="text" id="productCode" placeholder="VD: P001" required>
+                            </div>
+                            <div class="field">
+                                <label for="productCategory">Danh mục</label>
+                                <select id="productCategory" required></select>
+                            </div>
+                            <div class="field">
+                                <label for="productName">Tên sản phẩm</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="field">
+                                <label for="productImage">Hình ảnh (URL)</label>
+                                <input type="url" id="productImage" placeholder="./img/xxx.jpg hoặc https://...">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="productDesc">Mô tả</label>
+                            <textarea id="productDesc" rows="3" placeholder="Mô tả chi tiết..."></textarea>
+                        </div>
+                        <div class="field">
+                            <label>
+                                <input type="checkbox" id="productHidden"> Ẩn sản phẩm
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn primary" id="saveProductBtn">Lưu</button>
+                            <button type="button" class="btn" id="resetProductFormBtn">Làm mới</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Danh mục</th>
+                            <th>Hình</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody"></tbody>
+                </table>
+            </section>
+
+            <!-- Admin 3: Quản lý loại (danh mục) sản phẩm -->
+            <section class="products-category" id="products-category">
+                <h2>Quản lý danh mục sản phẩm</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="categorySearch">Tìm theo tên</label>
+                        <input type="text" id="categorySearch" placeholder="Nhập tên danh mục...">
+                    </div>
+                    <div class="field">
+                        <label for="categoryStatusFilter">Trạng thái</label>
+                        <select id="categoryStatusFilter">
+                            <option value="all">Tất cả</option>
+                            <option value="visible">Đang hiển thị</option>
+                            <option value="hidden">Đang ẩn</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Thêm / Sửa danh mục</h3>
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId">
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="categoryCode">Mã danh mục</label>
+                                <input type="text" id="categoryCode" placeholder="VD: SPT" required>
+                            </div>
+                            <div class="field">
+                                <label for="categoryName">Tên danh mục</label>
+                                <input type="text" id="categoryName" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="categoryDesc">Mô tả</label>
+                            <textarea id="categoryDesc" rows="2" placeholder="Mô tả ngắn..."></textarea>
+                        </div>
+                        <div class="field">
+                            <label>
+                                <input type="checkbox" id="categoryHidden"> Ẩn danh mục
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn primary" id="saveCategoryBtn">Lưu</button>
+                            <button type="button" class="btn" id="resetCategoryFormBtn">Làm mới</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table id="categoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTableBody"></tbody>
+                </table>
+            </section>
+
+            <!-- Admin 5: Quản lý nhập sản phẩm sản phẩm -->
+             <section class="content-section" id="import">
+            <h2>Quản lý Nhập Sản phẩm</h2>
+
+            <div class="form-group">
+                <h3>➕ Thêm/Sửa Phiếu Nhập</h3>
+                <div id="nhap-form">
+                    <input type="hidden" id="nhapId">
+                    <label for="ngayNhap">Ngày Nhập:</label>
+                    <input type="date" id="ngayNhap" required>
+
+                    <br>
+                    <h4>Chi tiết Sản phẩm</h4>
+                    <div id="product-list">
+                        <div class="product-item">
+                            <select class="productId" required onchange="updateProductDetails(this)">
+                                <option value="">-- Chọn Sản phẩm --</option>
+                            </select>
+                            <input type="number" class="giaNhap" placeholder="Giá nhập" min="0" required>
+                            <input type="number" class="soLuong" placeholder="Số lượng" min="1" required>
+                            <button type="button" class="btn-danger" onclick="removeProductItem(this)">Xóa</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-info" onclick="addProductItem()">Thêm Sản phẩm khác</button>
+                    <br><br>
+                    <button type="button" class="btn-primary" onclick="saveNhap()">Lưu Phiếu Nhập (Nháp)</button>
+                    <button type="button" class="btn-success" onclick="completeNhap()">Hoàn Thành Phiếu Nhập</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <h3>📋 Danh sách Phiếu Nhập</h3>
+                <label for="searchQuery">Tìm kiếm theo Ngày/ID:</label>
+                <input type="text" id="searchQuery" placeholder="VD: 2023-01-01 hoặc PN001" onkeyup="displayNhapList()">
+                <select id="filterStatus" onchange="displayNhapList()">
+                    <option value="all">Tất cả</option>
+                    <option value="Draft">Nháp</option>
+                    <option value="Completed">Hoàn thành</option>
+                </select>
+
+                <table id="nhap-table">
+                    <thead>
+                        <tr>
+                            <th>Mã PN</th>
+                            <th>Ngày Nhập</th>
+                            <th>Trạng thái</th>
+                            <th>Tổng tiền</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!--Admin 6: Quản lý Giá bán -->
+        <section class="content-section" id="price">
+            <h2>Quản lý giá bán sản phẩm</h2>
+            <div class="section">
+                <h3>Quản lý tỉ lệ lợi nhuận theo loại sản phẩm</h3>
+                
+                <div class="form-group">
+                    <label>Thêm loại sản phẩm mới:</label>
+                    <input type="text" id="tenLoaiMoi" placeholder="Tên loại sản phẩm">
+                    <input type="number" id="loiNhuanLoaiMoi" placeholder="Tỉ lệ lợi nhuận %" step="0.1">
+                    <button onclick="themLoaiSanPham()">Thêm loại</button>
+                </div>
+
+                <table id="bangLoaiSanPham">
+                    <thead>
+                        <tr>
+                            <th>Mã loại</th>
+                            <th>Tên loại</th>
+                            <th>Tỉ lệ lợi nhuận (%)</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="section">
+                <h3>Quản lý sản phẩm</h3>
+                
+                <div class="form-group">
+                    <label>Thêm sản phẩm mới:</label>
+                    <select id="chonLoaiSp"></select>
+                    <input type="text" id="tenSpMoi" placeholder="Tên sản phẩm">
+                    <input type="number" id="giaVonMoi" placeholder="Giá vốn" step="1000">
+                    <input type="number" id="loiNhuanSpMoi" placeholder="Tỉ lệ lợi nhuận %" step="0.1">
+                    <button onclick="themSanPham()">Thêm sản phẩm</button>
+                </div>
+
+                <table id="bangSanPham">
+                    <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Loại SP</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá vốn</th>
+                            <th>Lợi nhuận (%)</th>
+                            <th>Giá bán</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="section">
+                <h3>Tra cứu sản phẩm</h3>
+                
+                <div class="search-group">
+                    <input type="text" id="timKiemSp" placeholder="Tìm theo tên sản phẩm hoặc mã SP...">
+                    <select id="locTheoLoai">
+                        <option value="">Tất cả loại</option>
+                    </select>
+                    <button onclick="timKiemSanPham()">Tìm kiếm</button>
+                </div>
+
+                <table id="bangTraCuu">
+                    <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Loại SP</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá vốn</th>
+                            <th>Lợi nhuận (%)</th>
+                            <th>Giá bán</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+            <section class="orders" id="orders">
+                <h2>Quản lý đơn đặt hàng</h2>
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="orderFilterFrom">Từ ngày</label>
+                        <input type="date" id="orderFilterFrom">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterTo">Đến ngày</label>
+                        <input type="date" id="orderFilterTo">
+                    </div>
+                    <div class="field">
+                        <label for="orderFilterStatus">Trạng thái</label>
+                        <select id="orderFilterStatus" class="w-160">
+                            <option value="all">Tất cả</option>
+                            <option value="new">Mới đặt</option>
+                            <option value="processed">Đã xử lý</option>
+                            <option value="delivered">Đã giao</option>
+                            <option value="canceled">Hủy</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="orderFilterApply">Lọc</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="orderFilterReset">Đặt lại</button>
+                    </div>
+                </div>
+
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã đơn</th>
+                            <th class="nowrap w-120">Ngày đặt</th>
+                            <th>Khách hàng</th>
+                            <th class="right w-120">Tổng tiền</th>
+                            <th class="w-160">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="ordersPagination"></div>
+
+                <div class="panel" id="orderDetailBox" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Chi tiết đơn hàng</h3>
+                            <div id="orderDetailMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="orderDetailClose">Đóng</button>
+                        </div>
+                    </div>
+                    <div id="orderDetailItems"></div>
+                </div>
+            </section>
+
+            <section class="inventory" id="inventory">
+                <h2>Quản lý tồn kho</h2>
+
+                <div class="section-toolbar">
+                    <div class="field">
+                        <label for="invAsOfDate">Tồn tại thời điểm</label>
+                        <input type="date" id="invAsOfDate">
+                    </div>
+                    <div class="field">
+                        <label for="invFilterCategory">Phân loại</label>
+                        <select id="invFilterCategory" class="w-160">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="invFilterName">Tên sản phẩm</label>
+                        <input type="text" id="invFilterName" placeholder="Nhập tên sản phẩm...">
+                    </div>
+                    <div class="field">
+                        <button class="btn primary" id="invFilterApply">Tra cứu</button>
+                    </div>
+                    <div class="field">
+                        <button class="btn" id="invFilterReset">Đặt lại</button>
+                    </div>
+                </div>
+
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Mã SP</th>
+                            <th>Tên</th>
+                            <th class="nowrap">Loại</th>
+                            <th class="right nowrap w-120">Tồn</th>
+                            <th class="right nowrap w-120">Ngưỡng cảnh báo</th>
+                            <th class="nowrap">Trạng thái</th>
+                            <th class="nowrap">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="panel" id="movementsPanel" style="display:none">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Lịch sử nhập – xuất – tồn</h3>
+                            <div id="movementsMeta" class="muted"></div>
+                        </div>
+                        <div class="right">
+                            <button class="btn" id="movementsClose">Đóng</button>
+                        </div>
+                    </div>
+
+                    <div class="section-toolbar">
+                        <div class="field">
+                            <label for="mvFrom">Từ ngày</label>
+                            <input type="date" id="mvFrom">
+                        </div>
+                        <div class="field">
+                            <label for="mvTo">Đến ngày</label>
+                            <input type="date" id="mvTo">
+                        </div>
+                        <div class="field">
+                            <button class="btn primary" id="mvApply">Xem</button>
+                        </div>
+                    </div>
+
+                    <table id="movementsTable">
+                        <thead>
+                            <tr>
+                                <th class="nowrap w-120">Ngày</th>
+                                <th>Loại</th>
+                                <th class="right w-120">SL</th>
+                                <th class="right w-120">Tồn sau</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+
+
+        </div>
+    </div>
+
+
+</body>
+
+<script type="module" src="./js/admin.js"></script>
+<script type="module" src="./js/userManagement.js"></script>
+<script src="./js/admin-import.js"></script>
+<script src="./js/productData.js"></script>
+<script type="module" src="./js/admin-orders.js"></script>
+<script type="module" src="./js/admin-inventory.js"></script>
+<script src="./js/admin-categories.js"></script>
+<script src="./js/admin-products.js"></script>
+<script  src="./js/admin-price.js"></script>
+</html>
