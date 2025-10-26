@@ -6,9 +6,13 @@
   "type": "module",
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:data": "cross-env DATA_DIR=C:\\temp\\shoestore-data node server.js"
   },
   "dependencies": {
     "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

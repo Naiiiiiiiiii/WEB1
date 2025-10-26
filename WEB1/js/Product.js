@@ -14,7 +14,15 @@ class Product {
     this.rating = data.rating || 0;
     this.ratingCount = data.ratingCount || 0;
     this.badge = data.badge || null;
-    this.description = data.description || '';
+    this.description = data.description || "";
+
+    // NEW: giữ trạng thái ẩn/hiện và danh sách ảnh
+    this.hidden = !!data.hidden;
+    this.images = Array.isArray(data.images)
+      ? data.images
+      : data.img
+      ? [data.img]
+      : [];
   }
 
   // Tính phần trăm giảm giá
@@ -30,26 +38,25 @@ class Product {
 
   // Format giá tiền
   getFormattedPrice() {
-    return new Intl.NumberFormat('vi-VN').format(this.price) + '₫';
+    return new Intl.NumberFormat("vi-VN").format(this.price) + "₫";
   }
 
   // Format giá cũ
   getFormattedOldPrice() {
-    if (!this.oldPrice) return '';
-    return new Intl.NumberFormat('vi-VN').format(this.oldPrice) + '₫';
+    if (!this.oldPrice) return "";
+    return new Intl.NumberFormat("vi-VN").format(this.oldPrice) + "₫";
   }
 
   // Lấy text badge
   getBadgeText() {
-    if (!this.badge) return '';
-    
-    switch(this.badge) {
-      case 'hot':
-        return 'Hot';
-      case 'new':
-        return 'Mới';
-      case 'sale':
-        return this.isOnSale() ? `-${this.getDiscountPercent()}%` : 'Sale';
+    if (!this.badge) return "";
+    switch (this.badge) {
+      case "hot":
+        return "Hot";
+      case "new":
+        return "Mới";
+      case "sale":
+        return this.isOnSale() ? `-${this.getDiscountPercent()}%` : "Sale";
       default:
         return this.badge;
     }
@@ -58,9 +65,11 @@ class Product {
   // Render HTML cho rating stars
   renderStars() {
     const rating = Math.round(this.rating) || 0;
-    let html = '';
+    let html = "";
     for (let i = 1; i <= 5; i++) {
-      html += `<i class="${i <= rating ? 'fas' : 'far'} fa-star" aria-hidden="true"></i>`;
+      html += `<i class="${
+        i <= rating ? "fas" : "far"
+      } fa-star" aria-hidden="true"></i>`;
     }
     return html;
   }
@@ -77,7 +86,10 @@ class Product {
       rating: this.rating,
       ratingCount: this.ratingCount,
       badge: this.badge,
-      description: this.description
+      description: this.description,
+      // NEW: đưa hidden và images vào JSON
+      hidden: this.hidden,
+      images: this.images,
     };
   }
 

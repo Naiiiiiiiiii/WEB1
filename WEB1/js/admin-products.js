@@ -3,6 +3,7 @@ import { AdminAPI } from "./admin-api.js";
 // Admin 4: Quản lý sản phẩm qua API
 (function () {
   let products = []; // danh sách hiện hành (từ API)
+  let bc = null; // BroadcastChannel cho live update
 
   const els = {
     search: null,
@@ -132,18 +133,23 @@ import { AdminAPI } from "./admin-api.js";
     });
 
     els.tbody.querySelectorAll(".btn-toggle").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", async (e) => {
         const tr = e.target.closest("tr");
         const id = tr?.dataset.id;
         const idx = products.findIndex((x) => String(x.id) === String(id));
         if (idx === -1) return;
         products[idx].hidden = !products[idx].hidden;
         renderTable();
+        try {
+          await saveAllToServer();
+        } catch (err) {
+          console.error(err);
+        }
       });
     });
 
     els.tbody.querySelectorAll(".btn-delete").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", async (e) => {
         const tr = e.target.closest("tr");
         const id = tr?.dataset.id;
         if (!confirm("Xác nhận xóa sản phẩm?")) return;
@@ -151,6 +157,11 @@ import { AdminAPI } from "./admin-api.js";
         if (els.idHidden.value && String(els.idHidden.value) === String(id))
           resetForm();
         renderTable();
+        try {
+          await saveAllToServer();
+        } catch (err) {
+          console.error(err);
+        }
       });
     });
   }
@@ -167,7 +178,7 @@ import { AdminAPI } from "./admin-api.js";
     els.code.removeAttribute("disabled");
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
     const oldId = (els.idHidden.value || "").trim();
     const newId = (els.code.value || "").trim();
@@ -207,26 +218,43 @@ import { AdminAPI } from "./admin-api.js";
 
     resetForm();
     renderTable();
+    try {
+      await saveAllToServer();
+    } catch (err) {
+      console.error(err);
+      alert("Lưu thất bại: " + err.message);
+    }
   }
 
   async function saveAllToServer() {
+    const token = els.tokenInput ? els.tokenInput.value || "" : "";
+    const res = await AdminAPI.saveProducts(products, { token });
+    // Phát tín hiệu live update cho các tab user
     try {
-      const token = els.tokenInput ? els.tokenInput.value || "" : "";
-      await AdminAPI.saveProducts(products, { token });
-      alert("Đã lưu lên server!");
-    } catch (e) {
-      console.error(e);
-      alert("Lưu thất bại: " + e.message);
-    }
+      bc?.postMessage({ type: "updated", at: Date.now(), source: "admin" });
+    } catch {}
+    return res;
   }
 
   async function init() {
     bindEls();
 
-    // Nút lưu toàn bộ (bạn có thể thêm 1 nút trong UI, hoặc tự lưu khi submit)
-    // Nếu chưa có nút, bạn có thể gọi saveAllToServer() ngay sau onSubmit hoặc khi ấn toggle/xóa.
+    // Khởi tạo BroadcastChannel
+    try {
+      bc = new BroadcastChannel("products-sync");
+    } catch {}
+
     const saveBtn = document.getElementById("saveProductsToServer");
-    if (saveBtn) saveBtn.addEventListener("click", saveAllToServer);
+    if (saveBtn)
+      saveBtn.addEventListener("click", async () => {
+        try {
+          await saveAllToServer();
+          alert("Đã lưu lên server!");
+        } catch (e) {
+          console.error(e);
+          alert("Lưu thất bại: " + e.message);
+        }
+      });
 
     els.form?.addEventListener("submit", onSubmit);
     els.resetBtn?.addEventListener("click", resetForm);

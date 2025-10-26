@@ -6,6 +6,7 @@ async function loadProducts() {
   const list = await res.json();
 
   window.productDataList = Array.isArray(list) ? list : [];
+  // Nếu dự án bạn có class Product, có thể khởi tạo instance. Nếu không, dùng mảng object.
   if (typeof window.Product !== "undefined") {
     try {
       window.products = window.productDataList.map((d) => new Product(d));
@@ -14,6 +15,41 @@ async function loadProducts() {
     }
   } else {
     window.products = window.productDataList.slice();
+  }
+}
+
+// Thiết lập live update: lắng nghe kênh 'products-sync' và tự reload trang user khi có cập nhật
+function setupLiveUpdate() {
+  try {
+    const bc = new BroadcastChannel("products-sync");
+    bc.onmessage = async (ev) => {
+      const data = ev?.data || {};
+      if (data.type !== "updated") return;
+
+      // Bỏ qua nếu đang ở trang admin
+      const isAdmin = /admin-index\.html($|\?)/.test(window.location.pathname);
+      if (isAdmin) return;
+
+      // Reload nhẹ để đảm bảo renderProducts.js nạp lại với dữ liệu mới
+      // (giúp tránh duplicate event listeners nếu nạp script động nhiều lần)
+      try {
+        // Nếu muốn chỉ refetch mà không reload trang:
+        // await loadProducts();
+        // window.ProductRenderer?.refresh?.(window.products);
+        // Tuy nhiên reload là chắc chắn và sạch:
+        window.location.reload();
+      } catch {
+        window.location.reload();
+      }
+    };
+
+    // Lưu tham chiếu nếu cần debug
+    window.__productsSyncChannel = bc;
+  } catch (e) {
+    console.warn(
+      "[live-update] BroadcastChannel not available:",
+      e?.message || e
+    );
   }
 }
 
@@ -29,7 +65,8 @@ async function loadProducts() {
     const scriptsToLoad = [
       "./js/renderProducts.js",
       "./js/quickview.js",
-      "./js/search-overlay.js", // nếu overlay tìm kiếm cần dữ liệu
+      // Nếu chức năng search phụ thuộc dữ liệu, giữ lại dòng dưới:
+      // "./js/search-overlay.js",
     ];
     for (const src of scriptsToLoad) {
       await new Promise((resolve, reject) => {
@@ -40,8 +77,12 @@ async function loadProducts() {
         document.body.appendChild(s);
       });
     }
+    // Thông báo đã sẵn sàng (nếu các script khác cần lắng nghe)
     try {
       window.dispatchEvent(new CustomEvent("productsReady"));
     } catch {}
+
+    // Bật Live Update listener
+    setupLiveUpdate();
   }
 })();
