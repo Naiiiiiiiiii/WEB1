@@ -53,6 +53,16 @@
   let filtered = Array.isArray(products) ? products.slice() : [];
   let cart = JSON.parse(localStorage.getItem('cart_shoestore') || '[]');
 
+  function getCart() {
+    const cartData = localStorage.getItem('cart_shoestore');
+    console.log('📦 [renderProducts] Lấy giỏ hàng từ localStorage:', cartData);
+    return cartData ? JSON.parse(cartData) : [];
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem('cart_shoestore', JSON.stringify(cart));
+    console.log('💾 [renderProducts] Đã lưu giỏ hàng:', cart);
+  }
   // --- Create product card ---
   function createProductCard(product) {
     const card = document.createElement('div');
@@ -146,27 +156,45 @@
 
   // --- Cart helpers ---
   function updateCartCount() {
+    const cart = getCart(); // ✅ Lấy từ localStorage
     const count = cart.reduce((s, item) => s + (item.qty || 1), 0);
     if (cartCountEl) cartCountEl.textContent = count;
-    localStorage.setItem('cart_shoestore', JSON.stringify(cart));
+    console.log('🔔 [renderProducts] Cập nhật cart count:', count);
   }
 
   function addToCart(productId, qty = 1) {
     const id = Number(productId);
     const product = products.find(x => x.id === id);
     if (!product) return;
+
+    console.log('➕ [renderProducts] Thêm sản phẩm vào giỏ:', product.name);
+
+    // ✅ LẤY GIỎ HÀNG HIỆN TẠI TỪ LOCALSTORAGE
+    let cart = getCart();
+
+    // Chuẩn hóa đường dẫn ảnh
+    let imgPath = product.img || '';
+    if (imgPath.includes('../img/')) {
+        imgPath = imgPath.replace('../img/', './img/');
+    }
     
     const existing = cart.find(i => i.id === id);
     if (existing) {
       existing.qty = (existing.qty || 1) + qty;
+      console.log('📈 [renderProducts] Tăng số lượng:', existing);
     } else {
       cart.push({ 
         id: product.id, 
         name: product.name, 
         price: product.price, 
-        qty 
+        qty,
+        img: imgPath
       });
+      console.log('🆕 [renderProducts] Thêm sản phẩm mới');
     }
+
+    // ✅ LƯU LẠI VÀO LOCALSTORAGE
+    saveCart(cart);
     updateCartCount();
   }
 
