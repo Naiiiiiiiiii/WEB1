@@ -1,6 +1,4 @@
-
 // ---------- BEGIN productDataList  ----------
-const ORDERS_KEY = "import";
 const productDataList = [
   {
     id: 1,
@@ -231,6 +229,12 @@ function displayNhapList() {
     })
     .forEach(pn => {
       const tr = document.createElement("tr");
+      
+      // Tạo nút sửa - chỉ hiển thị khi phiếu là Draft
+      const editButton = pn.trangThai === "Draft" 
+        ? `<button onclick="editPhieu('${pn.id}')">Sửa</button>`
+        : `<button disabled title="Không thể sửa phiếu đã hoàn thành">Sửa</button>`;
+      
       tr.innerHTML = `
         <td>${pn.id}</td>
         <td>${pn.ngayNhap}</td>
@@ -238,7 +242,7 @@ function displayNhapList() {
         <td>${pn.tongTien.toLocaleString("vi-VN")} đ</td>
         <td>
           <button onclick="viewDetails('${pn.id}')">Xem</button>
-          <button onclick="editPhieu('${pn.id}')">Sửa</button>
+          ${editButton}
           <button onclick="deletePhieu('${pn.id}')">Xóa</button>
         </td>
       `;
@@ -267,7 +271,11 @@ function deletePhieu(id) {
 function editPhieu(id) {
   const pn = danhSachPhieuNhap.find(p => p.id === id);
   if (!pn) return alert("Không tìm thấy");
-  if (pn.trangThai === "Completed") return alert("Phiếu đã hoàn thành, không thể sửa.");
+  
+  // CHẶN SỬA KHI ĐÃ HOÀN THÀNH
+  if (pn.trangThai === "Completed") {
+    return alert("Phiếu đã hoàn thành, không thể sửa.");
+  }
 
   // fill form
   document.getElementById("ngayNhap").value = pn.ngayNhap;
@@ -309,10 +317,7 @@ function clearForm() {
   addProductItem();
 }
 
-// Init
 document.addEventListener("DOMContentLoaded", () => {
-  // Populate first row options and table
- // đảm bảo có 1 dòng
   loadProductOptions();
   displayNhapList();
 });
