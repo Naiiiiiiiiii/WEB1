@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Giày thể thao CA Match",
+    "category": "Giày thể thao",
+    "price": 2300000,
+    "oldPrice": 2400000,
+    "img": "./img/giaythethao_CAMatch.avif",
+    "rating": 5,
+    "ratingCount": 128,
+    "badge": "hot",
+    "description": "Giày thể thao CA Match với thiết kế hiện đại, đế cao su bền bỉ, chất liệu thoáng khí.",
+    "images": [
+      "./img/giaythethao_CAMatch.avif"
+    ],
+    "hidden": false
+  }
+]
