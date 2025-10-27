@@ -6,6 +6,7 @@ async function loadProducts() {
   const list = await res.json();
 
   window.productDataList = Array.isArray(list) ? list : [];
+  // Nếu dự án bạn có class Product, có thể khởi tạo instance. Nếu không, dùng mảng object.
   if (typeof window.Product !== "undefined") {
     try {
       window.products = window.productDataList.map((d) => new Product(d));
@@ -29,7 +30,7 @@ async function loadProducts() {
     const scriptsToLoad = [
       "./js/renderProducts.js",
       "./js/quickview.js",
-      "./js/search-overlay.js", // nếu overlay tìm kiếm cần dữ liệu
+      // TODO: thêm các script render khác của bạn nếu có
     ];
     for (const src of scriptsToLoad) {
       await new Promise((resolve, reject) => {
@@ -40,6 +41,7 @@ async function loadProducts() {
         document.body.appendChild(s);
       });
     }
+    // Thông báo đã sẵn sàng (nếu các script khác cần lắng nghe)
     try {
       window.dispatchEvent(new CustomEvent("productsReady"));
     } catch {}
