@@ -229,6 +229,11 @@ body {
   background-color: #ff0019;
 }
 
+.userTable tbody tr:first-child .btn-reset,
+.userTable tbody tr:first-child .btn-delete {
+  display: none;
+}
+
 .section-toolbar {
   display: flex;
   flex-wrap: wrap;
