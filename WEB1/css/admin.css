@@ -392,11 +392,3 @@ td {
   gap: 8px;
   padding: 24px;
 }
-
-#ordersTable td.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 26px;
-}
