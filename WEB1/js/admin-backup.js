@@ -1,3 +1,8 @@
+// Toolbar Export/Import JSON cho Admin
+// - Export: lấy /api/products và /api/categories → tải file store JSON
+// - Import: đọc file JSON (store hoặc legacy), gọi saveProducts + saveCategories để khôi phục
+// - Có BroadcastChannel để trang user tự reload
+
 import { AdminAPI } from "./admin-api.js";
 
 (function () {
@@ -91,6 +96,7 @@ import { AdminAPI } from "./admin-api.js";
     let categories = [];
 
     if (Array.isArray(parsed)) {
+      // legacy
       products = parsed;
       categories = deriveCategoriesFromProducts(products);
     } else if (parsed && typeof parsed === "object") {
@@ -109,6 +115,7 @@ import { AdminAPI } from "./admin-api.js";
       try {
         await AdminAPI.saveCategories(categories, { token });
       } catch (e) {
+        // Nếu chưa có endpoint categories thì cũng bỏ qua, vẫn khôi phục products ok
         console.warn("[backup] saveCategories failed:", e?.message || e);
       }
 

@@ -1,3 +1,10 @@
+/**
+ * renderProducts.js
+ * - Ẩn theo:
+ *   + product.hidden === true
+ *   + category.hidden === true (so khớp tên danh mục được chuẩn hóa)
+ */
+
 (function () {
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -46,6 +53,7 @@
   const products = Array.isArray(window.products) ? window.products : [];
   const categories = Array.isArray(window.categories) ? window.categories : [];
 
+  // Set tên danh mục ẩn đã chuẩn hóa (dùng cái có sẵn từ bootstrap nếu có)
   const hiddenCatSet =
     window.__hiddenCatSet instanceof Set
       ? window.__hiddenCatSet
@@ -344,5 +352,9 @@
   (function init() {
     updateCartCount();
     applyFilters();
+    // Debug nhanh: xem danh mục ẩn đã normalize
+    try {
+      console.info("[renderProducts] hiddenCatSet:", Array.from(hiddenCatSet));
+    } catch {}
   })();
 })();

@@ -1,8 +1,9 @@
 import { AdminAPI } from "./admin-api.js";
 
+// Admin 4: Quản lý sản phẩm qua API
 (function () {
-  let products = [];
-  let bc = null;
+  let products = []; // danh sách hiện hành (từ API)
+  let bc = null; // BroadcastChannel cho live update
 
   const els = {
     search: null,
@@ -38,6 +39,7 @@ import { AdminAPI } from "./admin-api.js";
     els.hidden = document.getElementById("productHidden");
     els.resetBtn = document.getElementById("resetProductFormBtn");
 
+    // Bạn có thể thêm một input cho token (DEV) hoặc lấy token từ session admin
     els.tokenInput = document.getElementById("adminToken"); // optional
   }
 
@@ -60,6 +62,7 @@ import { AdminAPI } from "./admin-api.js";
         .map((c) => `<option value="${c}">${c}</option>`)
         .join("");
       if (!els.category.innerHTML) {
+        // nếu chưa có danh mục nào, cho phép nhập thủ công bằng text (tùy chọn)
         els.category.outerHTML = `<input type="text" id="productCategory" placeholder="Nhập danh mục">`;
         els.category = document.getElementById("productCategory");
         els.category.value = keep;
@@ -226,6 +229,7 @@ import { AdminAPI } from "./admin-api.js";
   async function saveAllToServer() {
     const token = els.tokenInput ? els.tokenInput.value || "" : "";
     const res = await AdminAPI.saveProducts(products, { token });
+    // Phát tín hiệu live update cho các tab user
     try {
       bc?.postMessage({ type: "updated", at: Date.now(), source: "admin" });
     } catch {}
@@ -235,6 +239,7 @@ import { AdminAPI } from "./admin-api.js";
   async function init() {
     bindEls();
 
+    // Khởi tạo BroadcastChannel
     try {
       bc = new BroadcastChannel("products-sync");
     } catch {}
@@ -257,6 +262,7 @@ import { AdminAPI } from "./admin-api.js";
     els.filterCat?.addEventListener("change", renderTable);
     els.filterStatus?.addEventListener("change", renderTable);
 
+    // Tải dữ liệu từ API
     try {
       products = await AdminAPI.getProducts();
     } catch (e) {

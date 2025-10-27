@@ -1,3 +1,8 @@
+// Admin 3: Quản lý danh mục qua backend (products.json)
+// - GET/POST /api/categories, fallback từ /api/products nếu rỗng
+// - Ẩn/Hiện danh mục, không cho xóa nếu còn sản phẩm thuộc danh mục
+// - Auto-save + BroadcastChannel('products-sync')
+
 import { AdminAPI } from "./admin-api.js";
 
 (function () {
@@ -5,6 +10,7 @@ import { AdminAPI } from "./admin-api.js";
   let products = [];
   let bc = null;
 
+  // Debounce helper
   function debounce(fn, delay = 800) {
     let t;
     return (...args) => {
@@ -140,6 +146,7 @@ import { AdminAPI } from "./admin-api.js";
       )
       .join("");
 
+    // Edit
     els.tbody.querySelectorAll(".btn-edit").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
@@ -155,6 +162,7 @@ import { AdminAPI } from "./admin-api.js";
       });
     });
 
+    // Toggle hidden → auto-save (debounced)
     els.tbody.querySelectorAll(".btn-toggle").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
@@ -167,6 +175,7 @@ import { AdminAPI } from "./admin-api.js";
       });
     });
 
+    // Delete → auto-save (debounced, có ràng buộc)
     els.tbody.querySelectorAll(".btn-delete").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const tr = e.target.closest("tr");
@@ -229,6 +238,7 @@ import { AdminAPI } from "./admin-api.js";
 
     resetForm();
     render();
+    // Submit thì lưu ngay (không debounce) để phản hồi tức thời
     try {
       await saveAll();
     } catch (err) {
@@ -252,12 +262,14 @@ import { AdminAPI } from "./admin-api.js";
       bc = new BroadcastChannel("products-sync");
     } catch {}
 
+    // Load products trước (ràng buộc xóa + fallback)
     try {
       products = await AdminAPI.getProducts();
     } catch {
       products = [];
     }
 
+    // Load categories; nếu rỗng thì derive từ products
     try {
       const cats = await AdminAPI.getCategories();
       categories =
@@ -281,6 +293,7 @@ import { AdminAPI } from "./admin-api.js";
     els.search?.addEventListener("input", render);
     els.status?.addEventListener("change", render);
 
+    // Auto-save khi đang SỬA một danh mục: thay đổi trong form sẽ debounce save
     els.form?.addEventListener("input", () => {
       if (els.id.value) debouncedSave();
     });
