@@ -125,7 +125,7 @@ function openOrderHistory() {
     const nguoiDungHienTai = localStorage.getItem('nguoiDungHienTai');
     if (!nguoiDungHienTai) {
         alert('Vui lòng đăng nhập để xem lịch sử đơn hàng!');
-        window.location.href = './dangnhap.html';
+        window.openLoginModal();
         return;
     }
 

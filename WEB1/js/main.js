@@ -74,7 +74,7 @@ function khoiTaoSuKienGioHang() {
             
             if (!nguoiDungHienTai) {
                 alert('Vui lòng đăng nhập để xem danh sách yêu thích!');
-                window.location.href = './dangnhap.html';
+                window.openLoginModal();
                 return;
             }
             
@@ -91,7 +91,7 @@ function khoiTaoSuKienGioHang() {
             
             if (!nguoiDungHienTai) {
                 alert('Vui lòng đăng nhập để xem giỏ hàng!');
-                window.location.href = './dangnhap.html';
+                window.openLoginModal();
                 return;
             }
             
